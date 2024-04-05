@@ -5,7 +5,6 @@ const saveButtonWeb = document.getElementById("save-checklist-web");
 const saveButtonDevice = document.getElementById("save-checklist-device");
 const loadButton = document.getElementById("load-checklist");
 const fileInput = document.querySelector("#load-checklist-file");
-let checklistDataURL = "";
 
 let tupla_num = 0;
 
@@ -102,7 +101,6 @@ async function fetchSaveFile(checklistDataURL) {
 window.addEventListener("DOMContentLoaded", async function (e) {
     checklistDataJson = await fetchCookies;
     loadChecklistData(checklistDataJson);
-    checklistDataURL = "";
 });
 
 form.addEventListener("submit", saveFormOnWeb);
@@ -132,7 +130,7 @@ addButton.addEventListener("click", function (e) {
 
 fileInput.addEventListener("change", async () => {
     for (const file of fileInput.files) {
-        checklistDataURL = URL.createObjectURL(file);
+        const checklistDataURL = URL.createObjectURL(file);
         const checklistDataJson = await fetchSaveFile(checklistDataURL);
         loadChecklistData(checklistDataJson);
     }  
