@@ -23,10 +23,13 @@ tr {
 
 .th-data {
     text-align: center;
+    width: 60px;
 }
 
 .th-icone {
     text-align: center;
+    width: 20px;
+    padding: 0; 
 }
 
 .td-data {
@@ -34,8 +37,10 @@ tr {
     width: 12%;
 }
 
-.td-check {
+.td-check.text-center {
     text-align: center;
+    width: 20px;
+    padding: 0;
 }
 
 .form-check {
@@ -67,8 +72,9 @@ tr {
 }
 
 .checkbox-lg .form-check-input{
+    width: 20px;
     scale: 1.8;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .checkbox-lg .form-check-label {

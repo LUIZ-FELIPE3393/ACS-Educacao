@@ -14,7 +14,7 @@
     <title>10Minutos</title>
 </head>
 <body>
-  <div class="container">
+  <div class="container" style="overflow-x: hidden;">
     <header>
         <div class="row align-items-center">
             <div class="col-4 text-center">
@@ -34,21 +34,21 @@
       <form id="formChecklist" action="/save-checklist" method="post">          
         <br>
         <div class="table-responsive" style="margin-bottom: 3cm;">
-          <table class="table sticky-top" name="checklist-table" id="checklist-table" style="width: 100%">
+          <table class="table table-sm" name="checklist-table" id="checklist-table" style="width: 100%;">
             <thead>
               <tr>
-                <th class="th-data">Data</th>
-                <th class="th-icone">caixa</th>
-                <th class="th-icone">galao</th>
-                <th class="th-icone">vaso</th>
-                <th class="th-icone">balde</th>
-                <th class="th-icone">grrfa</th>
-                <th class="th-icone">pneu</th>
-                <th class="th-icone">pscna</th>
-                <th class="th-icone">pocas</th>
-                <th class="th-icone">pote</th>
-                <th class="th-icone">entlo</th>
-                <th class="th-icone">calha</th>
+                <th class="th-data"><img src="img/date.png" alt="Data" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/caixa.png" alt="Caixa d'água" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/galao.png" alt="Galão" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/vaso.png" alt="Vaso de Planta" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/balde.png" alt="Balde d'água" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/garrafa.png" alt="Garrafa d'água" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/pneu.png" alt="Pneu" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/piscina.png" alt="Piscina" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/pocas.png" alt="Poças d'água" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/pote.png" alt="Pote do Pet" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/entulho.png" alt="Entulho" style="max-width: 48px;"></th>
+                <th class="th-icone"><img src="img/calha.png" alt="Calha do Telhado" style="max-width: 48px;"></th>
               </tr>
             </thead>
             <tbody id="table-content" name="table-content">
@@ -75,6 +75,7 @@
             </div>
             <div class="col-auto">
               <button id="load-checklist" class="btn btn-secondary" type="button">
+                <input id="load-checklist-file" type="file" accept=".10min" hidden>
                 <i class="bi bi-file-earmark-arrow-up" style="font-size: 28px;"></i>
               </button>
             </div>
