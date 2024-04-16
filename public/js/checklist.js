@@ -6,6 +6,9 @@ const saveButtonDevice = document.getElementById("save-checklist-device");
 const loadButton = document.getElementById("load-checklist");
 const fileInput = document.querySelector("#load-checklist-file");
 
+const tooltipTriggerList = document.querySelectorAll('[data-tt="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 let tupla_num = 0;
 
 const saveFormOnWeb = (e) => {

@@ -90,6 +90,8 @@ body {
     background-color: var(--bs-body-bg);
 }
 
+
+
 @media all and (min-width:720px) and (max-width: 920px) {
     .fixed-bottom {
         margin-left: 64px;

@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
+//Depend
+app.use("/depend", express.static("./.depend"));
+
 //Bootstrap
 app.use("/css", express.static("./.depend/bootstrap/css"));
 app.use("/js", express.static("./.depend/bootstrap/js"));
