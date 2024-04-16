@@ -20,10 +20,10 @@ const saveFormOnWeb = (e) => {
                 checkbox.value = 0;
             } else {
                 for (let hiddenNode of tuple.querySelectorAll("input[type=hidden]")) {
-                if (hiddenNode.name == checkbox.name) {
-                    console.log(hiddenNode);
-                    hiddenNode.disabled = true;
-                }
+                    if (hiddenNode.name == checkbox.name) {
+                        console.log(hiddenNode);
+                        hiddenNode.disabled = true;
+                    }
                 }
             }
         }
