@@ -109,7 +109,16 @@ window.addEventListener("DOMContentLoaded", async function (e) {
 form.addEventListener("submit", saveFormOnWeb);
 
 saveButtonWeb.addEventListener("click", (e) => {
-    form.setAttribute("action", "/save-checklist-web")
+    const checklistTableContent = checklistTable.querySelector("#table-content");
+
+    let arrDatadia = [];
+
+    for (let tuple = checklistTableContent.firstChild; tuple != null; tuple = tuple.nextSibling) {
+        
+        arrDatadia.push(tuple.querySelector("#datadia").value);
+    }
+
+    console.log(arrDatadia);
 });
 
 saveButtonDevice.addEventListener("click", (e) => {
