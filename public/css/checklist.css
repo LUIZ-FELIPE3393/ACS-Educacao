@@ -71,6 +71,15 @@ tr {
     color: white;
 }
 
+.btn-tup {
+    margin-top: 5px;
+}
+
+.btn-tup:hover {
+    scale: 1.1;
+    color: red;
+}
+
 .checkbox-lg .form-check-input{
     width: 20px;
     scale: 1.8;

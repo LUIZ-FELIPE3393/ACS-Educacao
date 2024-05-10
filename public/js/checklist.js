@@ -7,27 +7,120 @@ const loadButton = document.getElementById("load-checklist");
 const fileInput = document.querySelector("#load-checklist-file");
 
 const tooltipTriggerList = document.querySelectorAll('[data-tt="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+let submitAction = "/";
 
 let tupla_num = 0;
 
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        const x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        return (
+        e instanceof DOMException &&
+        // everything except Firefox
+        (e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === "QuotaExceededError" ||
+            // Firefox
+            e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage &&
+        storage.length !== 0
+        );
+    }
+}
+
+function getFormDataArray(submittedForm, dataID) {
+    let array = [];
+    for (let element of submittedForm.querySelectorAll(dataID)) {
+        if (element.getAttribute("type") === "checkbox") {
+            if (element.checked)
+                array.push("1");
+            else 
+                array.push("0");
+            continue;
+        }
+        array.push(element.value);
+    }
+
+    return array.toString();
+}
+
+function saveToStorage(submittedForm) {
+    if (storageAvailable("localStorage")) {
+        localStorage.setItem("blocked", getFormDataArray(submittedForm, "#blocked"));
+        localStorage.setItem("datadia", getFormDataArray(submittedForm, "#datadia"));
+        localStorage.setItem("caixa", getFormDataArray(submittedForm, "#caixa"));
+        localStorage.setItem("galao", getFormDataArray(submittedForm, "#galao"));
+        localStorage.setItem("vaso", getFormDataArray(submittedForm, "#vaso"));
+        localStorage.setItem("balde", getFormDataArray(submittedForm, "#balde"));
+        localStorage.setItem("garrafa", getFormDataArray(submittedForm, "#garrafa"));
+        localStorage.setItem("pneu", getFormDataArray(submittedForm, "#pneu"));
+        localStorage.setItem("piscina", getFormDataArray(submittedForm, "#piscina"));
+        localStorage.setItem("pocas", getFormDataArray(submittedForm, "#pocas"));
+        localStorage.setItem("pote", getFormDataArray(submittedForm, "#pote"));
+        localStorage.setItem("entulho", getFormDataArray(submittedForm, "#entulho"));
+        localStorage.setItem("calha", getFormDataArray(submittedForm, "#calha"));
+    } else {
+        console.log("Storage não está disponível");
+    }
+}
+
 const saveFormOnWeb = (e) => {
-    for (let tuple of document.querySelectorAll("tr[name=tupla]")) {
+    const submittedForm = form.cloneNode(true);
+    submittedForm.setAttribute("action", submitAction);
+    submittedForm.setAttribute("method", "post");
+    submittedForm.setAttribute("hidden", "");
+    submittedForm.setAttribute("id", "submittedForm");
+    
+    console.log(form);
+    for (let tuple of submittedForm.querySelectorAll("tr[name=tupla]")) {
+        if (tuple.getAttribute("blocked") === "true") {
+            unblockTuple(tuple);
+            let blockedNode = tuple.querySelector("#blocked");
+            blockedNode.setAttribute("value", "1");
+        }
+        
         console.log(tuple);
         for (let checkbox of tuple.querySelectorAll("input[type=checkbox]")) {
             console.log(checkbox);
-            if (!checkbox.checked) {
-                checkbox.value = 0;
-            } else {
+            if (checkbox.checked) {
                 for (let hiddenNode of tuple.querySelectorAll("input[type=hidden]")) {
                     if (hiddenNode.name == checkbox.name) {
                         console.log(hiddenNode);
                         hiddenNode.disabled = true;
+                        break;
                     }
                 }
             }
         }
-      }
+    }
+    console.log(submittedForm);
+    saveToStorage(submittedForm);
+    document.getElementById('submitted-form-container').appendChild(submittedForm);
+    submittedForm.submit();
+}
+
+function unblockTuple(nodeTuple) {
+    for (let input of nodeTuple.querySelectorAll("input")) {
+        input.removeAttribute("disabled");
+    }  
+}
+
+function blockTuple(nodeTuple) {
+    for (let input of nodeTuple.querySelectorAll("input")) {
+        input.setAttribute("disabled", "");
+    }   
 }
 
 async function loadChecklistData(JSONData) {
@@ -51,8 +144,9 @@ async function loadChecklistData(JSONData) {
         let tuple = document.createElement("tr");
         tuple.setAttribute("id", "tupla-" + tupla_num);
         tuple.setAttribute("name", "tupla");
-        tupla_num++;
-        tuple.innerHTML = tupleFormat;
+        tuple.setAttribute("class", "align-center");
+        tuple.setAttribute("blocked", "false");
+        tuple.innerHTML = tupleFormat.replaceAll(":tupleNum:", tupla_num);
 
         if (typeof(JSONData.datadia) === "string") {
             tuple.querySelector("#datadia").value = JSONData.datadia;
@@ -61,29 +155,54 @@ async function loadChecklistData(JSONData) {
         }
         
         if (JSONData.caixa[i] === "1")
-        tuple.querySelector("#caixa").checked = true;
+            tuple.querySelector("#caixa").checked = true;
         if (JSONData.galao[i] === "1")
-        tuple.querySelector("#galao").checked = true;
+            tuple.querySelector("#galao").checked = true;
         if (JSONData.vaso[i] === "1")
-        tuple.querySelector("#vaso").checked = true;
+            tuple.querySelector("#vaso").checked = true;
         if (JSONData.balde[i] === "1")
-        tuple.querySelector("#balde").checked = true;
+            tuple.querySelector("#balde").checked = true;
         if (JSONData.pocas[i] === "1")
-        tuple.querySelector("#pocas").checked = true;
+            tuple.querySelector("#pocas").checked = true;
         if (JSONData.garrafa[i] === "1")
-        tuple.querySelector("#garrafa").checked = true;
+            tuple.querySelector("#garrafa").checked = true;
         if (JSONData.pneu[i] === "1")
-        tuple.querySelector("#pneu").checked = true;
+            tuple.querySelector("#pneu").checked = true;
         if (JSONData.piscina[i] === "1")
-        tuple.querySelector("#piscina").checked = true;
+            tuple.querySelector("#piscina").checked = true;
         if (JSONData.pote[i] === "1")
-        tuple.querySelector("#pote").checked = true;
+            tuple.querySelector("#pote").checked = true;
         if (JSONData.entulho[i] === "1")
-        tuple.querySelector("#entulho").checked = true;
+            tuple.querySelector("#entulho").checked = true;
         if (JSONData.calha[i] === "1")
-        tuple.querySelector("#calha").checked = true;
+            tuple.querySelector("#calha").checked = true;
 
         checklistTableContent.append(tuple);
+
+        if (JSONData.blocked[i] === "1") {
+            blockTuple(tuple);
+            tuple.setAttribute("blocked", "true");
+        }
+            
+
+        let buttonRemove = document.getElementById("deleteSemana-" + tupla_num);
+        let buttonBlock = document.getElementById("blockSemana-" + tupla_num);
+
+        const tupla_id = tupla_num;
+
+        buttonRemove.addEventListener('click', () => {
+            checklistTableContent.removeChild(document.getElementById("tupla-" + tupla_id));
+        });
+        buttonBlock.addEventListener('click', () => {
+            if (tuple.getAttribute("blocked") === "true") {
+                tuple.setAttribute("blocked", "false");
+                unblockTuple(tuple);
+                return;
+            }
+            blockTuple(tuple);
+            tuple.setAttribute("blocked", "true");
+        });
+        tupla_num++;  
     }
 } 
 
@@ -101,19 +220,45 @@ async function fetchSaveFile(checklistDataURL) {
         });
 }
 
+function convertLocalStorageToObject() {
+    let dataJSON = JSON.stringify(localStorage);
+    
+    dataJSON = JSON.parse(dataJSON);
+    dataJSON.balde = dataJSON.balde.split(",");
+    dataJSON.blocked = dataJSON.blocked.split(",");
+    dataJSON.caixa = dataJSON.caixa.split(",");
+    dataJSON.calha = dataJSON.calha.split(",");
+    dataJSON.datadia = dataJSON.datadia.split(",");
+    dataJSON.entulho = dataJSON.entulho.split(",");
+    dataJSON.galao = dataJSON.galao.split(",");
+    dataJSON.garrafa = dataJSON.garrafa.split(",");
+    dataJSON.piscina = dataJSON.piscina.split(",");
+    dataJSON.pneu = dataJSON.pneu.split(",");
+    dataJSON.pocas = dataJSON.pocas.split(",");
+    dataJSON.pote = dataJSON.pote.split(",");
+    dataJSON.vaso = dataJSON.vaso.split(",");
+
+    console.log(dataJSON);
+
+    return dataJSON;
+}
+
 window.addEventListener("DOMContentLoaded", async function (e) {
-    checklistDataJson = await fetchCookies;
+    const checklistDataJson = convertLocalStorageToObject();
     loadChecklistData(checklistDataJson);
 });
 
-form.addEventListener("submit", saveFormOnWeb);
+form.addEventListener("submit", (e) => {
+    saveFormOnWeb(e);
+    e.preventDefault();
+});
 
 saveButtonWeb.addEventListener("click", (e) => {
-    form.setAttribute("action", "/save-checklist-web")
+    submitAction = "/save-checklist-web";
 });
 
 saveButtonDevice.addEventListener("click", (e) => {
-    form.setAttribute("action", "/save-checklist-device")
+    submitAction =  "/save-checklist-device";
 });
 
 loadButton.addEventListener("click", async function (e) {
@@ -126,9 +271,28 @@ addButton.addEventListener("click", function (e) {
     tuple.setAttribute("id", "tupla-" + tupla_num);
     tuple.setAttribute("name", "tupla");
     tuple.setAttribute("class", "align-center");
-    tupla_num++;
-    tuple.innerHTML = tupleFormat;
+    tuple.setAttribute("blocked", "false");
+    tuple.innerHTML = tupleFormat.replaceAll(":tupleNum:", tupla_num);
+
     checklistTableContent.append(tuple);
+    let buttonRemove = document.getElementById("deleteSemana-" + tupla_num);
+    let buttonBlock = document.getElementById("blockSemana-" + tupla_num);
+
+    const tupla_id = tupla_num;
+
+    buttonRemove.addEventListener('click', () => {
+        checklistTableContent.removeChild(document.getElementById("tupla-" + tupla_id));
+    });
+    buttonBlock.addEventListener('click', () => {
+        if (tuple.getAttribute("blocked") === "true") {
+            tuple.setAttribute("blocked", "false");
+            unblockTuple(tuple);
+            return;
+        }
+        blockTuple(tuple);
+        tuple.setAttribute("blocked", "true");
+    });
+    tupla_num++;    
 });
 
 fileInput.addEventListener("change", async () => {
@@ -141,6 +305,7 @@ fileInput.addEventListener("change", async () => {
 
 const tupleFormat = `
 <th class="td-data text-center">
+    <input type="hidden" name="blocked" id="blocked" value="0">
     <div class="form-check">
         <input class="form-control" type="date" name="datadia" id="datadia" required>
     </div>
@@ -210,4 +375,14 @@ const tupleFormat = `
         <input type="hidden" name="calha" id="calhaHidden" value="0">
         <input class="form-check-input" type="checkbox" name="calha" id="calha" value="1">
     </div>
+</td>
+<td class="td-check text-center">
+    <button name="deleteSemana-:tupleNum:" id="deleteSemana-:tupleNum:" class="btn btn-tup" type="button">
+        <i class="bi bi-trash-fill"></i>
+    </button>
+</td>
+<td class="td-check text-center">
+    <button name="blockSemana-:tupleNum:" id="blockSemana-:tupleNum:" class="btn btn-tup" type="button">
+        <i class="bi bi-ban"></i>
+    </button>
 </td>`;

@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 
 //Rotas
 app.post("/save-checklist-web", function (req, res) {
+  res.cookie("blocked", req.body.blocked);
   res.cookie("datadia", req.body.datadia);
   res.cookie("caixa", req.body.caixa);
   res.cookie("galao", req.body.galao);
@@ -68,23 +69,6 @@ app.post("/save-checklist-device", async (req, res) => {
 
 app.get("/cookies", function (req, res) {
   res.json(req.cookies);
-});
-
-app.get("/load", function (req, res) {
-    res.clearCookie("datadia");
-    res.clearCookie("caixa");
-    res.clearCookie("cookiePote");
-    res.clearCookie("cookieGarrafa");
-    res.clearCookie("cookieCalha");
-    res.clearCookie("cookiePocas");
-    res.clearCookie("cookieEntulho");
-    res.clearCookie("cookieGalao");
-    res.clearCookie("cookiePiscina");
-    res.clearCookie("cookiePneu");
-    res.clearCookie("cookieVaso");
-    res.clearCookie("cookieBalde");
-
-    res.redirect("/checklist");
 });
 
 app.get("/file-download/:name", (req, res) => {

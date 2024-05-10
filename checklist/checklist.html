@@ -13,15 +13,16 @@
     <title>10Minutos</title>
 </head>
 <body>
+  <div id="submitted-form-container" hidden>
+    </div> 
   <div class="container" style="overflow-x: hidden;">
     <header>
         <div class="row align-items-center">
             <div class="col-4 text-center">
-                <img src="img/2469.jpg" alt="Diga não à Dengue!" style="max-width: 96px;">
-                <p style="font-size: 10px;"><a href="https://br.freepik.com/vetores-gratis/mosquito_4426158.htm#query=mosquito%20dengue&position=1&from_view=keyword&track=ais&uuid=751fe4ed-e612-4857-b625-156c286c6dc0">Imagem de macrovector_official</a> no Freepik</p>
+                
             </div>
             <div class="col-4 text-center">
-                <a class="text-body-emphasis text-decoration-none" href="#">10 Minutos contra a Dengue</a>
+              <img src="img/logo-preta.png" alt="Checklist 10 Minutos" style="max-height: 60px;">
             </div>
             <div class="col-4 text-center">
                 
@@ -30,7 +31,7 @@
     </header>
 
     <div class="row g-5">
-      <form id="formChecklist" action="/save-checklist" method="post">          
+      <form id="formChecklist" action="" method="post">          
         <br>
         <div class="table-responsive" style="margin-bottom: 3cm;">        
           <table class="table table-sm" name="checklist-table" id="checklist-table" style="width: 100%;">
@@ -99,6 +100,8 @@
                     <img src="img/calha.png" alt="Data" style="max-width: 48px;">
                   </button>                
                 </th>
+                <th class="th-icone"></th>
+                <th class="th-icone"></th>
               </tr>
             </thead>
             <tbody id="table-content" name="table-content">
@@ -132,6 +135,7 @@
           </div> 
         </div>
       </form>
+      
       
       <!-- Modais -->
       <!-- Data da semana -->
@@ -187,7 +191,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="img/galao-modal.png" alt="Galão d'água" style="max-width: 280px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
+              <img src="img/galao-modal.png" alt="Galão d'água" style="max-width: 200px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
             </div>
             <div class="modal-body">
               <p>Assim como a caixa d'água, os galões, tonéis, poços e latões devem estar <b>totalmente vedados</b> para evitar proliferação de mosquitos.</p> 
@@ -209,7 +213,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="img/vaso-modal.png" alt="Vasos de planta" style="max-width: 280px;">
+              <img src="img/vaso-modal.png" alt="Vasos de planta" style="max-width: 200px;">
             </div>
             <div class="modal-body">
               <p>Os pratos com água que ficam embaixo dos vasos de planta <b>devem ser evitados</b>, pois acumulam água por muito tempo.</p> 
@@ -297,7 +301,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="img/piscina-modal.jpg" alt="Piscina" style="max-width: 280px;">
+              <img src="img/piscina-modal.jpg" alt="Piscina" style="max-width: 220px;">
             </div>
             <div class="modal-body">
               <p>Piscinas que não forem tratadas corretamente tornam-se um foco perigosíssimo para proliferação de mosquitos.</p> 
@@ -319,7 +323,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="img/pocas-modal.png" alt="Poças" style="max-width: 280px;">
+              <img src="img/pocas-modal.png" alt="Poças" style="max-width: 220px;">
             </div>
             <div class="modal-body">
               <p>O chão dentro e fora de casa devem estar sempre secos no dia a dia.</p> 
