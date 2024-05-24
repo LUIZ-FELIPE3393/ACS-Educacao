@@ -1,0 +1,37 @@
+html {
+    padding-right: 0;   
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.fit-screen {
+    padding-right: 0;
+    height: 100%;
+}
+
+.fit-container {
+    margin-right: 0;
+    height: 100%;
+}
+
+.left-side {
+    text-align: center;
+    background-color: #C62929;
+    height: 100%;
+}
+
+.right-side {
+    background-color: #D6D6D6;
+    height: 100%;
+}
+
+.image {
+    padding: 20px;
+    width: 75%;
+}
