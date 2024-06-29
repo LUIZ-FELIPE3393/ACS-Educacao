@@ -27,6 +27,10 @@ app.use("/css", express.static("./.depend/bootstrap/css"));
 app.use("/js", express.static("./.depend/bootstrap/js"));
 app.use("/icon-font", express.static("./node_modules/bootstrap-icons/font"));
 
+//Functionality Pattern
+app.use("/checklist", express.static("./checklist"));
+app.use("/quiz", express.static("./quiz"));
+
 //Express
 app.use(express.static(path.join(__dirname, "./public")));
 
@@ -67,6 +71,10 @@ app.post("/save-checklist-device", async (req, res) => {
     });
 });
 
+app.post("/send-score", async (req, res) => {
+
+});
+
 app.get("/cookies", function (req, res) {
   res.json(req.cookies);
 });
@@ -81,6 +89,10 @@ app.get("/file-read/:url", (req, res) => {
 
 app.get("/checklist", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./checklist/checklist.html"));
+});
+
+app.get("/quiz", function (req, res, html) {
+  res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
 });
 
 app.get("/", function (req, res) {
