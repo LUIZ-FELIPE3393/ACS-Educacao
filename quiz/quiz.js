@@ -15,9 +15,10 @@ let timer;
 buttonAdvance.addEventListener("click", () => {advance()});
 
 //Class Answer
-function Answer(questionID, answerID) {
+function Answer(questionID, answerID, answerCorrect) {
     this.questionID = questionID;
     this.answerID = answerID;
+    this.answerCorrect = answerCorrect;
 }
 
 function fimDoQuiz() {
@@ -29,8 +30,44 @@ function fimDoQuiz() {
     answerCount.innerText = "Acertos: " + playerCorrectAnswers + " / " + questionArraySize;
 
     scoreElement.appendChild(answerCount);
-
     questionBlock.appendChild(scoreElement);
+
+    buttonAdvance.innerText = "Reiniciar quiz";
+
+    fetch("./questions.json").then((response) => response.json())
+        .then((json) => {
+            const questionArray = json.questionArray;
+            
+            for (const answer of answers) {
+                if (answer.answerCorrect === false) {
+                    console.log("aaa");
+                    const questionObject = questionArray.find((object) => {
+                        return object.id === answer.questionID;
+                    });
+
+                    console.log(questionObject.answers.find((object) => {
+                        return object.correct === answer.answerCorrect;
+                    }));
+
+                    const correctedAnswer = document.createElement("div");
+                    let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.question);
+                    correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
+                        questionObject.answers.find((object) => {
+                            return object.id === answer.answerID;
+                        }).text
+                    );
+                    correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
+                        questionObject.answers.find((object) => {
+                            return object.correct === true;
+                        }).text
+                    );
+
+                    correctedAnswer.innerHTML = correctedAnswerHTML;
+
+                    answerBlock.append(correctedAnswer);
+                }
+            }
+        }); 
 }
 
 function advance() {
@@ -42,7 +79,7 @@ function advance() {
         while (answerBlock.hasChildNodes()) {
             const answer = answerBlock.firstElementChild;
             if(answer.clicked) {
-                answers.push(new Answer(questionNum-1, answer.answerID));
+                answers.push(new Answer(questionNum-1, answer.answerID, answer.answerCorrect));
                 if(answer.answerCorrect) {
                     playerScore += questionBlock.firstElementChild.answerPoints;
                     playerCorrectAnswers += 1;
@@ -57,8 +94,8 @@ function advance() {
     setQuestion().then(() => {
         questionNum++;
     });
-    document.querySelector("#btn-advance").setAttribute("disabled", "");
-    document.querySelector("#btn-advance").textContent = "Escolha a resposta";
+    buttonAdvance.setAttribute("disabled", "");
+    buttonAdvance.textContent = "Escolha a resposta";
 }
 
 function deselectAnswers() {
@@ -74,7 +111,7 @@ async function setQuestion() {
             questionArraySize = json.questionArray.length;
             const questionObject = json.questionArray.find((object) => {
                     return object.id === questionNum;
-                });;
+                });
             if (questionObject === undefined) {
                 console.log("End");
                 fimDoQuiz();
@@ -103,12 +140,21 @@ async function setQuestion() {
                     deselectAnswers();
                     answerElement.clicked = true;
                     answerElement.classList.add("btn-selected");
-                    document.querySelector("#btn-advance").removeAttribute("disabled");
-                    document.querySelector("#btn-advance").textContent = "Avançar";
-                    console.log(answerOptions); 
+                    buttonAdvance.removeAttribute("disabled");
+                    buttonAdvance.textContent = "Avançar";
                 })  
 
                 answerBlock.append(answerElement);
             }
         });
 }
+
+const correctedAnswerHTMLTemplate = `
+    <h2>:question:</h2>
+    <div class="alert alert-danger" role="alert">
+        :wrong-answer:
+    </div>
+    <div class="alert alert-success" role="alert">
+        :correct-answer:
+    </div>
+`;
