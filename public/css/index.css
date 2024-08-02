@@ -1,37 +1,61 @@
-html {
-    padding-right: 0;   
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
+header {
+    padding: 2px;
+    border-bottom: 1px solid black;
+    margin-bottom: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 28px;
+}
+
+tr {
+  height: 48px;
+}
+
+.container-md {
+    padding: 2rem;
+}
+
+.rounded {
+    border-radius: 2rem;
+}
+
+.border-b {
+    border-bottom: 1px solid black;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    border-color: #00A000;
+    background-color: #00A000;
+}
+
+.btn-primary:hover {
+    border-color: #007000;
+    background-color: #007000;
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
+    background-color: var(--bs-body-bg);
 }
 
-.fit-screen {
-    padding-right: 0;
-    height: 100%;
+
+
+@media all and (min-width:720px) and (max-width: 920px) {
+    .fixed-bottom {
+        margin-left: 64px;
+        margin-right: 16px;
+    }
 }
 
-.fit-container {
-    margin-right: 0;
-    height: 100%;
+@media all and (min-width:520px) and (max-width: 720px) {
+    .fixed-bottom {
+        margin-left: 32px;
+        margin-right: 32px;
+    }
 }
 
-.left-side {
-    text-align: center;
-    background-color: #C62929;
-    height: 100%;
-}
-
-.right-side {
-    background-color: #D6D6D6;
-    height: 100%;
-}
-
-.image {
-    padding: 20px;
-    width: 75%;
+@media all and (min-width:0px) and (max-width: 520px) {
+    .fixed-bottom {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
 }

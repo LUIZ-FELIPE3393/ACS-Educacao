@@ -98,3 +98,4 @@ app.get("/quiz", function (req, res, html) {
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
+

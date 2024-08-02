@@ -50,6 +50,7 @@ function fimDoQuiz() {
                     }));
 
                     const correctedAnswer = document.createElement("div");
+                    correctedAnswer.classList.add("correction-block")
                     let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.question);
                     correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
                         questionObject.answers.find((object) => {
@@ -64,7 +65,7 @@ function fimDoQuiz() {
 
                     correctedAnswer.innerHTML = correctedAnswerHTML;
 
-                    answerBlock.append(correctedAnswer);
+                    document.querySelector(".correction-section").append(correctedAnswer);
                 }
             }
         }); 
@@ -151,10 +152,17 @@ async function setQuestion() {
 
 const correctedAnswerHTMLTemplate = `
     <h2>:question:</h2>
-    <div class="alert alert-danger" role="alert">
-        :wrong-answer:
+    <div class="answer-block">
+        <div class="wrong-answer-tint"></div>
+        <div class="alert" role="alert">
+            :wrong-answer:
+        </div>
     </div>
-    <div class="alert alert-success" role="alert">
-        :correct-answer:
+
+    <div class="answer-block">
+        <div class="correct-answer-tint"></div>
+        <div class="alert" role="alert">
+            :correct-answer:
+        </div>
     </div>
 `;

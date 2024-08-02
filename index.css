@@ -1,0 +1,143 @@
+header {
+    padding: 2px;
+    border-bottom: 1px solid black;
+    margin-bottom: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 28px;
+}
+
+tr {
+  height: 48px;
+}
+
+.c-data {
+    display: inline-block;
+    align-self: start;
+    align-self: auto;
+}
+
+.c-check {
+    display: inline-block;
+}
+
+
+.th-data {
+    text-align: center;
+    width: 60px;
+}
+
+.th-icone {
+    text-align: center;
+    width: 20px;
+    padding: 0; 
+}
+
+.td-data {
+    text-align: center;
+    width: 12%;
+}
+
+.td-check.text-center {
+    text-align: center;
+    width: 20px;
+    padding: 0;
+}
+
+.form-check {
+    display: flex;
+    justify-content: center;
+    min-width: 60px;
+}
+
+.fixed-bottom {
+    background-color: var(--bs-body-bg); 
+    padding-top: 10px;
+    border-top: 1px solid black;
+    margin-left: 102px;
+    margin-right: 102px;
+}
+
+.btn-primary {
+    border-color: #00A000;
+    background-color: #00A000;
+}
+
+.btn-primary:hover {
+    border-color: #007000;
+    background-color: #007000;
+}
+
+#button-bar {
+    margin-bottom: 20px; 
+    display: flex;
+    justify-content: center;
+}
+
+#add-checklist {
+    transition: .08s;
+}
+
+#add-checklist:hover {
+    color: white;
+}
+
+.btn-tup {
+    margin-top: 5px;
+}
+
+.btn-tup:hover {
+    scale: 1.1;
+    color: red;
+}
+
+.checkbox-lg .form-check-input{
+    width: 20px;
+    scale: 1.8;
+    margin-top: 15px;
+}
+
+.checkbox-lg .form-check-label {
+    padding-top: 8px;
+}
+
+.form-check-input:hover {
+    border-color: #ddddff;
+    background-color: #ddddff;
+}
+
+.form-check-input:checked {
+    border-color: #00A000;
+    background-color: #00A000;
+}
+
+.form-check-input:checked:hover {
+    border-color: #007000;
+    background-color: #007000;
+}
+
+body {
+    background-color: var(--bs-body-bg);
+}
+
+
+
+@media all and (min-width:720px) and (max-width: 920px) {
+    .fixed-bottom {
+        margin-left: 64px;
+        margin-right: 16px;
+    }
+}
+
+@media all and (min-width:520px) and (max-width: 720px) {
+    .fixed-bottom {
+        margin-left: 32px;
+        margin-right: 32px;
+    }
+}
+
+@media all and (min-width:0px) and (max-width: 520px) {
+    .fixed-bottom {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+}
