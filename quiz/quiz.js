@@ -153,15 +153,19 @@ async function setQuestion() {
 const correctedAnswerHTMLTemplate = `
     <h2>:question:</h2>
     <div class="answer-block">
-        <div class="wrong-answer-tint"></div>
-        <div class="alert" role="alert">
+        <div class="wrong-answer-tint" style="">
+            <i class="bi bi-x-lg"></i>
+        </div>
+        <div class="alert-wrong" role="alert">
             :wrong-answer:
         </div>
     </div>
 
     <div class="answer-block">
-        <div class="correct-answer-tint"></div>
-        <div class="alert" role="alert">
+        <div class="correct-answer-tint" style="">
+            <i class="bi bi-check-lg"></i>
+        </div>
+        <div class="alert-correct" role="alert">
             :correct-answer:
         </div>
     </div>

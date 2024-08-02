@@ -13,6 +13,11 @@ h2 {
     font-size: 18px;
 }
 
+i {
+    color: white;
+    font-size: 1.5rem;
+}
+
 .bottom-line {
     border-bottom: 1px solid black;
     margin-bottom: 16px;
@@ -53,10 +58,12 @@ h2 {
 }
 
 .answer-block {
-    display: flex;
-    border: 1px solid gray;
+    display: grid;
+    grid-template-columns: 4rem auto;
+    border: 2px solid gray;
     border-radius: 1rem; 
     padding: 0;
+    overflow: hidden;
 
 }
 
@@ -67,15 +74,27 @@ h2 {
 }
 
 .wrong-answer-tint {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     background-color: red;
-    border-radius: 1rem 0rem 0rem 1rem;
     min-height: 100%;
 }
 
+.alert-wrong {
+    background-color: #fcadad;
+}
+
 .correct-answer-tint {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     background-color: green;
-    border-radius: 1rem 0rem 0rem 1rem;
     min-height: 100%;
+}
+
+.alert-correct {
+    background-color: #b8ffa9;
 }
 
 .correction-section {
