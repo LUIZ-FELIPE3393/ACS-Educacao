@@ -1,13 +1,42 @@
+.changa-one-regular {
+    font-family: "Changa One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 header {
-    padding: 2px;
+    padding: 1rem;
     border-bottom: 1px solid black;
     margin-bottom: 16px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 28px;
+    background-color: #00A000;
+}
+
+main {
+    margin-bottom: 2rem;
+}
+
+footer {
+    padding: 2rem;
+    border-top: 1px solid black;
+    color: white;
+    text-align: center;
+    background-color: #00A000;  
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 tr {
   height: 48px;
+}
+
+.space-x > * {
+    margin-right: .5rem;
+    margin-left: .5rem;
 }
 
 .container-md {
