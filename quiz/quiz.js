@@ -24,13 +24,16 @@ function Answer(questionID, answerID, answerCorrect) {
 function fimDoQuiz() {
     cron.stop();
 
-    const scoreElement = document.createElement("div");
+    document.querySelector("#game-row").classList.add('hidden');
+    document.querySelector("#endgame-row").classList.remove('hidden');
 
-    const answerCount = document.createElement("p");
-    answerCount.innerText = "Acertos: " + playerCorrectAnswers + " / " + questionArraySize;
+    document.querySelector("#score-text").innerText =
+        playerCorrectAnswers + ' / ' + questionArraySize;
 
-    scoreElement.appendChild(answerCount);
-    questionBlock.appendChild(scoreElement);
+    document.querySelector("#cron-text-end").innerText = 
+        ("00" + cron.hour).slice(-2) + ":" +
+       ("00" + cron.minute).slice(-2) + 
+        ":" + ("00" + cron.second).slice(-2);
 
     buttonAdvance.innerText = "Reiniciar quiz";
 
@@ -76,6 +79,7 @@ function advance() {
         cron = new Cron(0, 0, 0);
         cron.start();
     }
+
     if(questionBlock.hasChildNodes()) {
         while (answerBlock.hasChildNodes()) {
             const answer = answerBlock.firstElementChild;

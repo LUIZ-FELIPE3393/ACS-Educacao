@@ -17,31 +17,51 @@
         <header class="bottom-line">
             <div class="row align-items-center">
                 <div class="col-4">
-                    <a href="/" style="font-size: 18px;">Página Inicial</a>
+                    <a href="/" style="font-size: 18px;">
+                        <img class="img-fluid" src="/img/home-svgrepo-com.svg" style="height: 32px;">Página Inicial
+                    </a>
                 </div>
                 <div class="col-4 text-center">
-                    Quiz
+                    <img class="img-fluid" src="/img/quiz-logo-branca.png" alt="Quiz Contra a Dengue" style="max-height: 72px;">
                 </div>
                 <div class="col-4 text-center">
                     
                 </div>
             </div>
         </header>
-        <section id="section" class="text-center">
-            <div class="cron">
-                <p id="cron-text"></p>
+        <main class="grid">
+            <div id="game-row" class="row">
+                <section id="section" class="col-10 text-center">
+                    <div class="bottom-line align-items-center" id="questionBlock"></div>
+                    <div class="d-flex justify-content-center">
+                        <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
+                    </div>
+                    <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;">
+                        Avançar
+                    </button>
+                </section>
+                <section class="col d-flex flex-column justify-content-center container-sm text-center">
+                    <div class="cron mb-4">
+                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="cron-text">00:00:00</p>
+                    </div>
+                </section>
             </div>
-            <div class="bottom-line align-items-center" id="questionBlock"></div>
-            <div class="d-flex justify-content-center">
-                <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
+            <div id="endgame-row" class="row hidden">
+                <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
+                    <div class="cron">
+                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="cron-text-end">00:00:00</p>
+                    </div>
+                    <div class="score ms-4">
+                        <img class="img-fluid" src="./assets/check-circle-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="score-text">0 / 0</p>
+                    </div>
+                </section>
+                
+                <section class="correction-section"></section>
             </div>
-
-            <section class="correction-section"></section>
-
-            <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;">
-                Avançar
-            </button>
-        </section>
+        </main>
     </div>
 </body>
 <script src="/quiz/quiz.js" type="module"></script>
