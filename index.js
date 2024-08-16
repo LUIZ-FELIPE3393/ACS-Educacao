@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const fileSystem = require("fs");
 const { error } = require("console");
+const { db } = require("./firebase")
 
 let app = express();
 let server = http.createServer(app);
@@ -93,6 +94,22 @@ app.get("/checklist", function (req, res, html) {
 
 app.get("/quiz", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
+});
+
+app.get("/quiz-start", async function (req, res, html) {
+  const testeRef = db.collection("teste").doc("teste");
+
+  testeRef.get().then((doc) => {
+    if (doc.exists) {
+      console.log("Document Data:", doc.data());
+    } else {
+      console.log("Document does not exist");
+    }
+  }).catch((error) => {
+    console.log("Error retrieving document:", error);  
+  })
+
+  res.sendFile(path.join(__dirname, "./quiz/start.html"));
 });
 
 app.get("/", function (req, res) {
