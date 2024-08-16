@@ -116,7 +116,24 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
 
-/// --- Question model routes --- ///
+/// --- Questao model routes --- ///
+//Get all questions
+app.get("/questions", function (req, res) {
+  const questionRef = db.collection("questoes");
+  const questionArr = [];
+
+  questionRef.get().then((snapshot) => {
+    console.log(snapshot);
+    snapshot.forEach(docRef => {
+      questionArr.push(docRef);
+    });
+    res.json(questionArr);
+  }).catch((error) => {
+    console.log("Error retrieving collection:", error); 
+    res.status(500).send({message: `Não foi possível ler a questoes: ${error}`, status: 500});
+  })
+
+});
 
 //Get question by ID
 app.get("/questions/id/:id", function (req, res) {
@@ -128,11 +145,11 @@ app.get("/questions/id/:id", function (req, res) {
       res.json(doc.data());
     } else {
       //console.log("Document does not exist");
-      res.status(404).send({message: "Não foi possível encontrar a resposta procurada.", status: 404});
+      res.status(404).send({message: "Não foi possível encontrar a pergunta procurada.", status: 404});
     }
   }).catch((error) => {
-    //console.log("Error retrieving document:", error); 
-    res.status(500).send({message: `Não foi possível ler a resposta procurada: ${error}`, status: 500});
+    console.log("Error retrieving document:", error); 
+    res.status(500).send({message: `Não foi possível ler a pergunta procurada: ${error}`, status: 500});
   })
 });
 
@@ -143,4 +160,47 @@ app.get("/questions/count", function (req, res) {
   questionRef.count().get().then((coll) => {
     res.json(coll.data().count);
   })
+});
+
+/// --- Resposta model routes --- ///
+
+//Get all answers
+app.get("/answers", function (req, res) {
+  const answerRef = db.collection("respostas");
+  const answerArr = [];
+
+  answerRef.get().then((snapshot) => {
+    console.log(snapshot);
+    snapshot.forEach(doc => {
+      console.log(doc);
+      answerArr.push(doc.data());
+    });
+    res.json(answerArr);
+  }).catch((error) => {
+    console.log("Error retrieving collection:", error); 
+    res.status(500).send({message: `Não foi possível ler as respostas: ${error}`, status: 500});
+  })
+});
+
+//Get all answers from question
+app.get("/answers/byQuestion/:questionId", function (req, res) {
+  const answerRef = db.collection("respostas");
+  const questionsRef = db.collection("questoes").doc(req.params.questionId);
+  const answerArr = [];
+
+  questionsRef.get().then(doc => {
+    if (doc.exists) {
+      answerRef.where("questao", "==", questionsRef).get().then(snapshot => {
+        snapshot.forEach(doc => {
+          answerArr.push(doc.data().resps);
+        });
+        res.json(answerArr[0]);
+      }).catch((error) => {
+        console.log("Error retrieving collection:", error); 
+        res.status(500).send({message: `Não foi possível ler as respostas: ${error}`, status: 500});
+      })
+    } else {
+      res.status(404).send({message: "Não foi possível encontrar a pergunta procurada.", status: 404});
+    }
+  });
 });

@@ -138,3 +138,10 @@ i {
 .hidden {
     display: none;
 }
+
+@media (max-width: 960px) { 
+    .correction-section {
+        display: grid;
+        grid-template-columns: auto;
+    }
+}

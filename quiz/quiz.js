@@ -4,6 +4,8 @@ const answerBlock = document.querySelector("#answerBlock");
 const questionBlock = document.querySelector("#questionBlock");
 const buttonAdvance = document.querySelector("#btn-advance");
 
+buttonAdvance.setAttribute("disabled", "");
+
 let answerOptions = [];
 let answers = [];
 let questionNum = 0;
@@ -18,6 +20,8 @@ buttonAdvance.addEventListener("click", () => {advance()});
 fetch("/questions/count").then((response) => response.json())
     .then((json) => {
         questionArraySize = json;
+        buttonAdvance.innerText = "Iniciar Quiz";
+        buttonAdvance.removeAttribute("disabled");
     })
 
 //Class Answer
@@ -27,23 +31,55 @@ function Answer(questionID, answerID, answerCorrect) {
     this.answerCorrect = answerCorrect;
 }
 
-function fimDoQuiz() {
+async function fimDoQuiz() {
     cron.stop();
 
     document.querySelector("#game-row").classList.add('hidden');
-    document.querySelector("#endgame-row").classList.remove('hidden');
 
-    document.querySelector("#score-text").innerText =
-        playerCorrectAnswers + ' / ' + questionArraySize;
+    ///console.log(answers);
 
-    document.querySelector("#cron-text-end").innerText = 
-        ("00" + cron.hour).slice(-2) + ":" +
-       ("00" + cron.minute).slice(-2) + 
-        ":" + ("00" + cron.second).slice(-2);
+    for (let i = 0; i < questionArraySize; i++) {
+        const questionID = `q${("0000" + i).slice(-4)}`
+        fetch("/answers/byQuestion/" + questionID).then((response) => response.json())
+            .then((answersJSON) => {
+                if (answersJSON[answers[i].answerID]) {
+                    playerCorrectAnswers++;
+                } else {
+                    fetch("/questions/id/" + questionID).then((response) => response.json())
+                        .then((questionObject) => {
+                            const correctedAnswer = document.createElement("div");
+                            correctedAnswer.classList.add("correction-block")
+                            let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.pergunta);
+                            correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
+                                questionObject.resps[answers[i].answerID]
+                            );
 
-    buttonAdvance.innerText = "Reiniciar quiz";
+                            correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
+                                questionObject.resps[answersJSON.indexOf(true)]
+                            );
 
-    fetch("./questions.json").then((response) => response.json())
+                            correctedAnswer.innerHTML = correctedAnswerHTML;
+
+                            document.querySelector(".correction-section").append(correctedAnswer);  
+                        })
+                }
+                document.querySelector("#endgame-row").classList.remove('hidden');
+
+                document.querySelector("#score-text").innerText =
+                playerCorrectAnswers + ' / ' + questionArraySize;
+
+                document.querySelector("#cron-text-end").innerText = 
+                    ("00" + cron.hour).slice(-2) + ":" +
+                ("00" + cron.minute).slice(-2) + 
+                    ":" + ("00" + cron.second).slice(-2);
+
+                buttonAdvance.innerText = "Reiniciar quiz";
+            })
+    }
+
+    
+
+    /*fetch("./questions.json").then((response) => response.json())
         .then((json) => {
             const questionArray = json.questionArray;
             
@@ -77,7 +113,7 @@ function fimDoQuiz() {
                     document.querySelector(".correction-section").append(correctedAnswer);
                 }
             }
-        }); 
+        }); */
 }
 
 function advance() {
@@ -90,7 +126,7 @@ function advance() {
         while (answerBlock.hasChildNodes()) {
             const answer = answerBlock.firstElementChild;
             if(answer.clicked) {
-                answers.push(new Answer(questionNum-1, answer.answerID, answer.answerCorrect));
+                answers.push(new Answer(questionNum-1, answer.answerID));
                 if(answer.answerCorrect) {
                     playerScore += questionBlock.firstElementChild.answerPoints;
                     playerCorrectAnswers += 1;
@@ -117,17 +153,16 @@ function deselectAnswers() {
 }
 
 async function setQuestion() {
+    if (questionNum >= questionArraySize) {   
+        console.log("End");
+        fimDoQuiz();
+        return;
+    }
+
     const questionID = `q${("0000" + questionNum).slice(-4)}`
 
     fetch("/questions/id/" + questionID).then((response) => response.json())
         .then((questionObject) => {
-            console.log(questionObject)
-            if (questionObject === undefined) {
-                console.log("End");
-                fimDoQuiz();
-                return;
-            }
-            
             const questionElement = document.createElement("h2");
 
             questionElement.innerText = questionObject.pergunta;
@@ -135,17 +170,15 @@ async function setQuestion() {
             questionBlock.append(questionElement);
 
             answerOptions = questionObject.resps;
+            let index = 0;
             for (const answer of answerOptions) {
                 const answerElement = document.createElement("button");
                 const textElement = document.createElement("p");
 
                 textElement.innerText = answer;
                 answerElement.appendChild(textElement);
-
                 answerElement.setAttribute("class", "col btn btn-answer");
-                answerElement.answerID = answer.id;
-                answerElement.answerCorrect = answer.correct;
-
+                answerElement.answerID = index;
                 answerElement.addEventListener("click", (e) => {
                     deselectAnswers();
                     answerElement.clicked = true;
@@ -155,50 +188,10 @@ async function setQuestion() {
                 })  
 
                 answerBlock.append(answerElement);
+
+                index++;
             }
         });
-
-    /*await fetch("./questions.json").then((response) => response.json())
-        .then((json) => {
-            questionArraySize = json.questionArray.length;
-            const questionObject = json.questionArray.find((object) => {
-                    return object.id === questionNum;
-                });
-            if (questionObject === undefined) {
-                console.log("End");
-                fimDoQuiz();
-                return;
-            }
-            
-            const questionElement = document.createElement("h2");
-
-            questionElement.innerText = questionObject.question;
-            questionElement.answerPoints = questionObject.points;
-            questionBlock.append(questionElement);
-
-            answerOptions = questionObject.answers;
-            for (const answer of answerOptions) {
-                const answerElement = document.createElement("button");
-                const textElement = document.createElement("p");
-
-                textElement.innerText = answer.text;
-                answerElement.appendChild(textElement);
-
-                answerElement.setAttribute("class", "col btn btn-answer");
-                answerElement.answerID = answer.id;
-                answerElement.answerCorrect = answer.correct;
-
-                answerElement.addEventListener("click", (e) => {
-                    deselectAnswers();
-                    answerElement.clicked = true;
-                    answerElement.classList.add("btn-selected");
-                    buttonAdvance.removeAttribute("disabled");
-                    buttonAdvance.textContent = "Avançar";
-                })  
-
-                answerBlock.append(answerElement);
-            }
-        });*/
 }
 
 const correctedAnswerHTMLTemplate = `

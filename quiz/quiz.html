@@ -30,23 +30,23 @@
             </div>
         </header>
         <main class="grid">
-            <div id="game-row" class="row">
-                <section id="section" class="col-10 text-center">
+            <div id="game-row" class="container-lg row">
+                <section class="col d-flex flex-column justify-content-center align-items-center container-sm text-center">
+                    <div class="cron mb-4">
+                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="cron-text">00:00:00</p>
+                    </div>
+                </section>
+                <section id="section" class="col-lg-10 text-center">
                     <div class="bottom-line align-items-center" id="questionBlock">
                         <h2>Bem vindo ao Quiz Contra a Dengue, aqui você poderá testar seus conhecimentos a respeito do mosquito Aedes Aegypti e sobre o Controle Vetorial. Clique no botão azul para iniciar o quiz.</h2>
                     </div>
                     <div class="d-flex justify-content-center">
                         <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
                     </div>
-                    <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;">
-                        Iniciar Quiz
+                    <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;" disabled>
+                        Carregando...
                     </button>
-                </section>
-                <section class="col d-flex flex-column justify-content-center container-sm text-center">
-                    <div class="cron mb-4">
-                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
-                        <p id="cron-text">00:00:00</p>
-                    </div>
                 </section>
             </div>
             <div id="endgame-row" class="row hidden">
@@ -62,6 +62,12 @@
                 </section>
                 
                 <section class="correction-section"></section>
+
+                <section class="text-center">
+                    <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" disabled>
+                        Registrar Resposta
+                    </button>
+                </section>
             </div>
         </main>
     </div>
