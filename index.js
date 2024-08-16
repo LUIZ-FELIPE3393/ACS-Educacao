@@ -96,7 +96,19 @@ app.get("/quiz", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
 });
 
-app.get("/quiz-start", function (req, res, html) {
+app.get("/quiz-start", async function (req, res, html) {
+  const testeRef = db.collection("teste").doc("teste");
+
+  testeRef.get().then((doc) => {
+    if (doc.exists) {
+      console.log("Document Data:", doc.data());
+    } else {
+      console.log("Document does not exist");
+    }
+  }).catch((error) => {
+    console.log("Error retrieving document:", error);  
+  })
+
   res.sendFile(path.join(__dirname, "./quiz/start.html"));
 });
 
