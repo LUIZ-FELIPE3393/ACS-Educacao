@@ -3,6 +3,7 @@ import { Cron } from "./modules/cron.mjs";
 const answerBlock = document.querySelector("#answerBlock");
 const questionBlock = document.querySelector("#questionBlock");
 const buttonAdvance = document.querySelector("#btn-advance");
+
 let answerOptions = [];
 let answers = [];
 let questionNum = 0;
@@ -13,6 +14,11 @@ let cron;
 let timer;
 
 buttonAdvance.addEventListener("click", () => {advance()});
+
+fetch("/questions/count").then((response) => response.json())
+    .then((json) => {
+        questionArraySize = json;
+    })
 
 //Class Answer
 function Answer(questionID, answerID, answerCorrect) {
@@ -111,7 +117,48 @@ function deselectAnswers() {
 }
 
 async function setQuestion() {
-    await fetch("./questions.json").then((response) => response.json())
+    const questionID = `q${("0000" + questionNum).slice(-4)}`
+
+    fetch("/questions/id/" + questionID).then((response) => response.json())
+        .then((questionObject) => {
+            console.log(questionObject)
+            if (questionObject === undefined) {
+                console.log("End");
+                fimDoQuiz();
+                return;
+            }
+            
+            const questionElement = document.createElement("h2");
+
+            questionElement.innerText = questionObject.pergunta;
+            questionElement.answerPoints = questionObject.pontos;
+            questionBlock.append(questionElement);
+
+            answerOptions = questionObject.resps;
+            for (const answer of answerOptions) {
+                const answerElement = document.createElement("button");
+                const textElement = document.createElement("p");
+
+                textElement.innerText = answer;
+                answerElement.appendChild(textElement);
+
+                answerElement.setAttribute("class", "col btn btn-answer");
+                answerElement.answerID = answer.id;
+                answerElement.answerCorrect = answer.correct;
+
+                answerElement.addEventListener("click", (e) => {
+                    deselectAnswers();
+                    answerElement.clicked = true;
+                    answerElement.classList.add("btn-selected");
+                    buttonAdvance.removeAttribute("disabled");
+                    buttonAdvance.textContent = "Avançar";
+                })  
+
+                answerBlock.append(answerElement);
+            }
+        });
+
+    /*await fetch("./questions.json").then((response) => response.json())
         .then((json) => {
             questionArraySize = json.questionArray.length;
             const questionObject = json.questionArray.find((object) => {
@@ -151,7 +198,7 @@ async function setQuestion() {
 
                 answerBlock.append(answerElement);
             }
-        });
+        });*/
 }
 
 const correctedAnswerHTMLTemplate = `

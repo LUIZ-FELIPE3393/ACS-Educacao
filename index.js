@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const fileSystem = require("fs");
 const { error } = require("console");
-const { db } = require("./firebase")
+const { db, fb } = require("./firebase")
 
 let app = express();
 let server = http.createServer(app);
@@ -116,3 +116,32 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
 
+/// --- Question model routes --- ///
+
+//Get question by ID
+app.get("/questions/id/:id", function (req, res) {
+  const questionRef = db.collection("questoes").doc(req.params.id);
+
+  questionRef.get().then((doc) => {
+    if (doc.exists) {
+      //console.log("Document Data:", doc.data());
+      res.json(doc.data());
+    } else {
+      //console.log("Document does not exist");
+      res.status(404).send({message: "Não foi possível encontrar a resposta procurada.", status: 404});
+    }
+  }).catch((error) => {
+    //console.log("Error retrieving document:", error); 
+    res.status(500).send({message: `Não foi possível ler a resposta procurada: ${error}`, status: 500});
+  })
+});
+
+//Get question count
+app.get("/questions/count", function (req, res) {
+  const questionRef = db.collection("questoes");
+
+  questionRef.count().get().then((coll) => {
+    console.log(coll.data().count)
+    res.json(coll.data().count);
+  })
+});
