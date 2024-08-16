@@ -141,7 +141,6 @@ app.get("/questions/count", function (req, res) {
   const questionRef = db.collection("questoes");
 
   questionRef.count().get().then((coll) => {
-    console.log(coll.data().count)
     res.json(coll.data().count);
   })
 });
