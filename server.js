@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const fileSystem = require("fs");
 const { error } = require("console");
+const { db } = require("./firebase")
 
 let app = express();
 let server = http.createServer(app);
@@ -93,6 +94,10 @@ app.get("/checklist", function (req, res, html) {
 
 app.get("/quiz", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
+});
+
+app.get("/quiz-start", function (req, res, html) {
+  res.sendFile(path.join(__dirname, "./quiz/start.html"));
 });
 
 app.get("/", function (req, res) {
