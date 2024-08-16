@@ -1,7 +1,7 @@
 # DEFINIÇÕES
 
-Tecnologias: Node.js, express, Firebase
-Estrurtura: Baseada em features
+* Tecnologias: Node.js, express, Firebase
+* Estrutura: Baseada em features
 
 # Features
 
