@@ -76,44 +76,6 @@ async function fimDoQuiz() {
                 buttonAdvance.innerText = "Reiniciar quiz";
             })
     }
-
-    
-
-    /*fetch("./questions.json").then((response) => response.json())
-        .then((json) => {
-            const questionArray = json.questionArray;
-            
-            for (const answer of answers) {
-                if (answer.answerCorrect === false) {
-                    console.log("aaa");
-                    const questionObject = questionArray.find((object) => {
-                        return object.id === answer.questionID;
-                    });
-
-                    console.log(questionObject.answers.find((object) => {
-                        return object.correct === answer.answerCorrect;
-                    }));
-
-                    const correctedAnswer = document.createElement("div");
-                    correctedAnswer.classList.add("correction-block")
-                    let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.question);
-                    correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
-                        questionObject.answers.find((object) => {
-                            return object.id === answer.answerID;
-                        }).text
-                    );
-                    correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
-                        questionObject.answers.find((object) => {
-                            return object.correct === true;
-                        }).text
-                    );
-
-                    correctedAnswer.innerHTML = correctedAnswerHTML;
-
-                    document.querySelector(".correction-section").append(correctedAnswer);
-                }
-            }
-        }); */
 }
 
 function advance() {
