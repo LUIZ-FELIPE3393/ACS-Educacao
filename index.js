@@ -211,5 +211,5 @@ app.post("/score", function (req, res) {
     console.error("Erro ao escrever documento:", error);
   });
 
-  res.sendFile(path.join(__dirname, "./quiz/start.html"));
+  res.sendFile(path.join(__dirname, "./quiz/sent.html"));
 });
