@@ -55,18 +55,38 @@
                         <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
                         <p id="cron-text-end">00:00:00</p>
                     </div>
-                    <div class="score ms-4">
+                    <div class="answers ms-4">
                         <img class="img-fluid" src="./assets/check-circle-svgrepo-com.svg" style="max-height: 64px;">
-                        <p id="score-text">0 / 0</p>
+                        <p id="answers-text">0 / 0</p>
+                    </div>
+                    <div class="score ms-4">
+                        <img class="img-fluid" src="./assets/performance-up-graph-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="score-text">0</p>
                     </div>
                 </section>
                 
-                <section class="correction-section"></section>
+                <section class="correction-section mb-2"></section>
 
-                <section class="text-center">
-                    <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" disabled>
-                        Registrar Resposta
-                    </button>
+                <section class="text-center container-sm">
+                    <form action="/score" method="post">
+                        <div class="form-inputs">
+                            <p>
+                                <label for="form-nome" class="form-label">Nome</label>
+                                <input id="form-nome" class="form-control" name="nome">
+                            </p>
+                            <p>
+                                <label for="form-email" class="form-label">E-mail</label>
+                                <input id="form-email" class="form-control" name="email">
+                            </p>
+                        </div>
+
+                        <input id="req-answers" name="resps" hidden>
+                        <input id="req-score" name="pontos" hidden>
+                        
+                        <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" type="submit" disabled>
+                            Registrar Resposta
+                        </button>
+                    </form>
                 </section>
             </div>
         </main>

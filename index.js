@@ -96,22 +96,6 @@ app.get("/quiz", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
 });
 
-app.get("/quiz-start", async function (req, res, html) {
-  const testeRef = db.collection("teste").doc("teste");
-
-  testeRef.get().then((doc) => {
-    if (doc.exists) {
-      console.log("Document Data:", doc.data());
-    } else {
-      console.log("Document does not exist");
-    }
-  }).catch((error) => {
-    console.log("Error retrieving document:", error);  
-  })
-
-  res.sendFile(path.join(__dirname, "./quiz/start.html"));
-});
-
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
@@ -203,4 +187,29 @@ app.get("/answers/byQuestion/:questionId", function (req, res) {
       res.status(404).send({message: "Não foi possível encontrar a pergunta procurada.", status: 404});
     }
   });
+});
+
+/// --- Resultado model routes --- ///
+
+//Add player score
+app.post("/score", function (req, res) {
+  console.log(req.body);
+  const answerArr = [];
+
+  for (const answer of req.body.resps.split(",")) {
+    answerArr.push(Number(answer));
+  }
+
+  db.collection("resultados").add({
+    email: req.body.email,
+    nome: req.body.nome,
+    pontos: req.body.pontos,
+    resps: answerArr
+  }).then(docRef => {
+    console.log("Documento escrito com ID:", docRef.id);
+  }).catch(error => {
+    console.error("Erro ao escrever documento:", error);
+  });
+
+  res.sendFile(path.join(__dirname, "./quiz/start.html"));
 });
