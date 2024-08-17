@@ -69,10 +69,6 @@ app.post("/save-checklist-device", async (req, res) => {
     });
 });
 
-app.post("/send-score", async (req, res) => {
-
-});
-
 app.get("/cookies", function (req, res) {
   res.json(req.cookies);
 });
@@ -98,6 +94,7 @@ app.get("/", function (req, res) {
 });
 
 /// --- Questao model routes --- ///
+
 //Get all questions
 app.get("/questions", function (req, res) {
   const questionRef = db.collection("questoes");
@@ -189,24 +186,42 @@ app.get("/answers/byQuestion/:questionId", function (req, res) {
 /// --- Resultado model routes --- ///
 
 //Add player score
-app.post("/score", function (req, res) {
-  console.log(req.body);
+app.post("/send-score", function (req, res) {
+  const emailArr = [];
   const answerArr = [];
 
-  for (const answer of req.body.resps.split(",")) {
-    answerArr.push(Number(answer));
-  }
+  db.collection("resultados").where("email", "==", req.body.email).get().then(snapshot => {
+    snapshot.forEach(doc => {
+      emailArr.push(doc.data());
+    });
 
-  db.collection("resultados").add({
-    email: req.body.email,
-    nome: req.body.nome,
-    pontos: req.body.pontos,
-    resps: answerArr
-  }).then(docRef => {
-    console.log("Documento escrito com ID:", docRef.id);
-  }).catch(error => {
-    console.error("Erro ao escrever documento:", error);
+    if (emailArr.length !== 0) {
+      res.sendFile(path.join(__dirname, "./quiz/error.html"));
+      return;
+    }
+    
+    const timeObj = {
+      segundos: Number(req.body.segundos),
+      minutos: Number(req.body.minutos),
+      horas: Number(req.body.horas)
+    }
+
+    for (const answer of req.body.resps.split(",")) {
+      answerArr.push(Number(answer));
+    }
+
+    db.collection("resultados").add({
+      email: req.body.email,
+      nome: req.body.nome,
+      pontos: Number(req.body.pontos),
+      tempo: timeObj,
+      resps: answerArr
+    }).then(docRef => {
+      console.log("Documento escrito com ID:", docRef.id);
+    }).catch(error => {
+      console.error("Erro ao escrever documento:", error);
+    });
+
+    res.sendFile(path.join(__dirname, "./quiz/sent.html"));
   });
-
-  res.sendFile(path.join(__dirname, "./quiz/sent.html"));
 });

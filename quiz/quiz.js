@@ -27,7 +27,7 @@ async function fimDoQuiz() {
     cron.stop();
 
     document.querySelector("#game-row").classList.add('hidden');
-
+    document.querySelector("#loading-row").classList.remove('hidden');
     ///console.log(answers);
 
     for (let i = 0; i < questionArraySize; i++) {
@@ -38,7 +38,7 @@ async function fimDoQuiz() {
                 .then((questionObject) => {
                 if (answersJSON[answers[i]]) {
                     playerCorrectAnswers++;
-                    playerScore+= questionObject.pontos;
+                    playerScore += questionObject.pontos;
                 } else {
                     const correctedAnswer = document.createElement("div");
                     correctedAnswer.classList.add("correction-block")
@@ -52,14 +52,18 @@ async function fimDoQuiz() {
                     );
 
                     correctedAnswer.innerHTML = correctedAnswerHTML;
-
                     document.querySelector(".correction-section").append(correctedAnswer);  
 
-                    document.querySelector("#req-answers").value = answers.toString();
-                    document.querySelector("#req-score").value = playerScore;
-
-                    document.querySelector("#btn-send").removeAttribute("disabled");
                 }
+                document.querySelector("#req-answers").value = answers.toString();
+                document.querySelector("#req-score").value = playerScore;
+                document.querySelector("#req-seg").value = cron.second;
+                document.querySelector("#req-min").value = cron.minute;
+                document.querySelector("#req-hour").value = cron.hour;
+
+                document.querySelector("#btn-send").removeAttribute("disabled");
+
+                document.querySelector("#loading-row").classList.add('hidden');
                 document.querySelector("#endgame-row").classList.remove('hidden');
 
                 document.querySelector("#answers-text").innerText =

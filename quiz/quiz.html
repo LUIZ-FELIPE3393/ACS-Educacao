@@ -49,6 +49,13 @@
                     </button>
                 </section>
             </div>
+
+            <div id="loading-row" class="row hidden">
+                <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
+                    <h2>Carregando resultados...</h2>
+                </section>
+            </div>
+
             <div id="endgame-row" class="row hidden">
                 <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
                     <div class="cron">
@@ -68,20 +75,23 @@
                 <section class="correction-section mb-2"></section>
 
                 <section class="text-center container-sm">
-                    <form action="/score" method="post">
+                    <form action="/send-score" method="post">
                         <div class="form-inputs">
                             <p>
                                 <label for="form-nome" class="form-label">Nome</label>
-                                <input id="form-nome" class="form-control" name="nome">
+                                <input id="form-nome" class="form-control" name="nome" required>
                             </p>
                             <p>
                                 <label for="form-email" class="form-label">E-mail</label>
-                                <input id="form-email" class="form-control" name="email">
+                                <input id="form-email" class="form-control" name="email" placeholder="nome@exemplo.com" required>
                             </p>
                         </div>
 
                         <input id="req-answers" name="resps" hidden>
                         <input id="req-score" name="pontos" hidden>
+                        <input id="req-seg" name="segundos" hidden>
+                        <input id="req-min" name="minutos" hidden>
+                        <input id="req-hour" name="horas" hidden>
                         
                         <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" type="submit" disabled>
                             Registrar Resposta
