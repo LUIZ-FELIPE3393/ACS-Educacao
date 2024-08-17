@@ -1,7 +1,8 @@
 export class Cron {
-    constructor(second, minute) {
+    constructor(second, minute, hour) {
         this.second = second;
         this.minute = minute;
+        this.hour = hour;
     }
 
     start() {
@@ -15,6 +16,7 @@ export class Cron {
     reset() {
         this.second = 0;
         this.minute = 0;
+        this.hour = 0;
     }
 
     timer() {
@@ -22,9 +24,14 @@ export class Cron {
             this.second = 0
             this.minute += 1;
         }
+        if (this.minute == 60) {
+            this.minute = 0
+            this.hour += 1;
+        }
 
         document.querySelector("#cron-text").innerText = 
-            "Tempo: " + ("00" + this.minute).slice(-2) + 
+            ("00" + this.hour).slice(-2) + ":" +
+           ("00" + this.minute).slice(-2) + 
             ":" + ("00" + this.second).slice(-2);
     }
 }

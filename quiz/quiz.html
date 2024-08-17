@@ -17,31 +17,89 @@
         <header class="bottom-line">
             <div class="row align-items-center">
                 <div class="col-4">
-                    <a href="/" style="font-size: 18px;">Página Inicial</a>
+                    <a href="/" style="font-size: 18px;">
+                        <img class="img-fluid" src="/img/home-svgrepo-com.svg" style="height: 32px;">Página Inicial
+                    </a>
                 </div>
                 <div class="col-4 text-center">
-                    Quiz
+                    <img class="img-fluid" src="/img/quiz-logo-branca.png" alt="Quiz Contra a Dengue" style="max-height: 72px;">
                 </div>
                 <div class="col-4 text-center">
                     
                 </div>
             </div>
         </header>
-        <section id="section" class="text-center">
-            <div class="cron">
-                <p id="cron-text"></p>
-            </div>
-            <div class="bottom-line align-items-center" id="questionBlock"></div>
-            <div class="d-flex justify-content-center">
-                <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
+        <main class="grid">
+            <div id="game-row" class="container-lg row">
+                <section class="col d-flex flex-column justify-content-center align-items-center container-sm text-center">
+                    <div class="cron mb-4">
+                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="cron-text">00:00:00</p>
+                    </div>
+                </section>
+                <section id="section" class="col-lg-10 text-center">
+                    <div class="bottom-line align-items-center" id="questionBlock">
+                        <h2>Bem vindo ao Quiz Contra a Dengue, aqui você poderá testar seus conhecimentos a respeito do mosquito Aedes Aegypti e sobre o Controle Vetorial. Clique no botão azul para iniciar o quiz.</h2>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
+                    </div>
+                    <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;" disabled>
+                        Carregando...
+                    </button>
+                </section>
             </div>
 
-            <section class="correction-section"></section>
+            <div id="loading-row" class="row hidden">
+                <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
+                    <h2>Carregando resultados...</h2>
+                </section>
+            </div>
 
-            <button id="btn-advance" class="btn btn-primary" style="margin-top: 12px;">
-                Avançar
-            </button>
-        </section>
+            <div id="endgame-row" class="row hidden">
+                <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
+                    <div class="cron">
+                        <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="cron-text-end">00:00:00</p>
+                    </div>
+                    <div class="answers ms-4">
+                        <img class="img-fluid" src="./assets/check-circle-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="answers-text">0 / 0</p>
+                    </div>
+                    <div class="score ms-4">
+                        <img class="img-fluid" src="./assets/performance-up-graph-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="score-text">0</p>
+                    </div>
+                </section>
+                
+                <section class="correction-section mb-2"></section>
+
+                <section class="text-center container-sm">
+                    <form action="/send-score" method="post">
+                        <div class="form-inputs">
+                            <p>
+                                <label for="form-nome" class="form-label">Nome</label>
+                                <input id="form-nome" class="form-control" name="nome" required>
+                            </p>
+                            <p>
+                                <label for="form-email" class="form-label">E-mail</label>
+                                <input id="form-email" class="form-control" name="email" placeholder="nome@exemplo.com" required>
+                            </p>
+                        </div>
+
+                        <input id="req-answers" name="resps" hidden>
+                        <input id="req-score" name="pontos" hidden>
+                        <input id="req-seg" name="segundos" hidden>
+                        <input id="req-min" name="minutos" hidden>
+                        <input id="req-hour" name="horas" hidden>
+                        
+                        <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" type="submit" disabled>
+                            Registrar Resposta
+                        </button>
+                    </form>
+                </section>
+            </div>
+        </main>
     </div>
 </body>
 <script src="/quiz/quiz.js" type="module"></script>

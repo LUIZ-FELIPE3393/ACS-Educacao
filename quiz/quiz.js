@@ -3,6 +3,9 @@ import { Cron } from "./modules/cron.mjs";
 const answerBlock = document.querySelector("#answerBlock");
 const questionBlock = document.querySelector("#questionBlock");
 const buttonAdvance = document.querySelector("#btn-advance");
+
+buttonAdvance.setAttribute("disabled", "");
+
 let answerOptions = [];
 let answers = [];
 let questionNum = 0;
@@ -10,65 +13,72 @@ let playerScore = 0;
 let playerCorrectAnswers = 0;
 let questionArraySize = 0;
 let cron;
-let timer;
 
 buttonAdvance.addEventListener("click", () => {advance()});
 
-//Class Answer
-function Answer(questionID, answerID, answerCorrect) {
-    this.questionID = questionID;
-    this.answerID = answerID;
-    this.answerCorrect = answerCorrect;
-}
+fetch("/questions/count").then((response) => response.json())
+    .then((json) => {
+        questionArraySize = json;
+        buttonAdvance.innerText = "Iniciar Quiz";
+        buttonAdvance.removeAttribute("disabled");
+    })
 
-function fimDoQuiz() {
+async function fimDoQuiz() {
     cron.stop();
 
-    const scoreElement = document.createElement("div");
+    document.querySelector("#game-row").classList.add('hidden');
+    document.querySelector("#loading-row").classList.remove('hidden');
+    ///console.log(answers);
 
-    const answerCount = document.createElement("p");
-    answerCount.innerText = "Acertos: " + playerCorrectAnswers + " / " + questionArraySize;
-
-    scoreElement.appendChild(answerCount);
-    questionBlock.appendChild(scoreElement);
-
-    buttonAdvance.innerText = "Reiniciar quiz";
-
-    fetch("./questions.json").then((response) => response.json())
-        .then((json) => {
-            const questionArray = json.questionArray;
-            
-            for (const answer of answers) {
-                if (answer.answerCorrect === false) {
-                    console.log("aaa");
-                    const questionObject = questionArray.find((object) => {
-                        return object.id === answer.questionID;
-                    });
-
-                    console.log(questionObject.answers.find((object) => {
-                        return object.correct === answer.answerCorrect;
-                    }));
-
+    for (let i = 0; i < questionArraySize; i++) {
+        const questionID = `q${("0000" + i).slice(-4)}`
+        fetch("/answers/byQuestion/" + questionID).then((response) => response.json())
+            .then((answersJSON) => {
+            fetch("/questions/id/" + questionID).then((response) => response.json())
+                .then((questionObject) => {
+                if (answersJSON[answers[i]]) {
+                    playerCorrectAnswers++;
+                    playerScore += questionObject.pontos;
+                } else {
                     const correctedAnswer = document.createElement("div");
                     correctedAnswer.classList.add("correction-block")
-                    let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.question);
+                    let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.pergunta);
                     correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
-                        questionObject.answers.find((object) => {
-                            return object.id === answer.answerID;
-                        }).text
+                        questionObject.resps[answers[i]]
                     );
+
                     correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
-                        questionObject.answers.find((object) => {
-                            return object.correct === true;
-                        }).text
+                        questionObject.resps[answersJSON.indexOf(true)]
                     );
 
                     correctedAnswer.innerHTML = correctedAnswerHTML;
+                    document.querySelector(".correction-section").append(correctedAnswer);  
 
-                    document.querySelector(".correction-section").append(correctedAnswer);
                 }
-            }
-        }); 
+                document.querySelector("#req-answers").value = answers.toString();
+                document.querySelector("#req-score").value = playerScore;
+                document.querySelector("#req-seg").value = cron.second;
+                document.querySelector("#req-min").value = cron.minute;
+                document.querySelector("#req-hour").value = cron.hour;
+
+                document.querySelector("#btn-send").removeAttribute("disabled");
+
+                document.querySelector("#loading-row").classList.add('hidden');
+                document.querySelector("#endgame-row").classList.remove('hidden');
+
+                document.querySelector("#answers-text").innerText =
+                playerCorrectAnswers + ' / ' + questionArraySize;
+
+                document.querySelector("#score-text").innerText = playerScore;
+
+                document.querySelector("#cron-text-end").innerText = 
+                    ("00" + cron.hour).slice(-2) + ":" +
+                ("00" + cron.minute).slice(-2) + 
+                    ":" + ("00" + cron.second).slice(-2);
+            
+            })
+        })
+    }
 }
 
 function advance() {
@@ -76,21 +86,17 @@ function advance() {
         cron = new Cron(0, 0, 0);
         cron.start();
     }
+
     if(questionBlock.hasChildNodes()) {
         while (answerBlock.hasChildNodes()) {
             const answer = answerBlock.firstElementChild;
             if(answer.clicked) {
-                answers.push(new Answer(questionNum-1, answer.answerID, answer.answerCorrect));
-                if(answer.answerCorrect) {
-                    playerScore += questionBlock.firstElementChild.answerPoints;
-                    playerCorrectAnswers += 1;
-                }
+                answers.push(answer.answerID);
             }
             answerBlock.removeChild(answer);
         }
         questionBlock.removeChild(questionBlock.firstElementChild);
     }
-    console.log(playerScore);
     answerOptions = [];
     setQuestion().then(() => {
         questionNum++;
@@ -107,36 +113,32 @@ function deselectAnswers() {
 }
 
 async function setQuestion() {
-    await fetch("./questions.json").then((response) => response.json())
-        .then((json) => {
-            questionArraySize = json.questionArray.length;
-            const questionObject = json.questionArray.find((object) => {
-                    return object.id === questionNum;
-                });
-            if (questionObject === undefined) {
-                console.log("End");
-                fimDoQuiz();
-                return;
-            }
-            
+    if (questionNum >= questionArraySize) {   
+        console.log("End");
+        fimDoQuiz();
+        return;
+    }
+
+    const questionID = `q${("0000" + questionNum).slice(-4)}`
+
+    fetch("/questions/id/" + questionID).then((response) => response.json())
+        .then((questionObject) => {
             const questionElement = document.createElement("h2");
 
-            questionElement.innerText = questionObject.question;
-            questionElement.answerPoints = questionObject.points;
+            questionElement.innerText = questionObject.pergunta;
+            questionElement.answerPoints = questionObject.pontos;
             questionBlock.append(questionElement);
 
-            answerOptions = questionObject.answers;
+            answerOptions = questionObject.resps;
+            let index = 0;
             for (const answer of answerOptions) {
                 const answerElement = document.createElement("button");
                 const textElement = document.createElement("p");
 
-                textElement.innerText = answer.text;
+                textElement.innerText = answer;
                 answerElement.appendChild(textElement);
-
                 answerElement.setAttribute("class", "col btn btn-answer");
-                answerElement.answerID = answer.id;
-                answerElement.answerCorrect = answer.correct;
-
+                answerElement.answerID = index;
                 answerElement.addEventListener("click", (e) => {
                     deselectAnswers();
                     answerElement.clicked = true;
@@ -146,6 +148,8 @@ async function setQuestion() {
                 })  
 
                 answerBlock.append(answerElement);
+
+                index++;
             }
         });
 }

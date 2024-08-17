@@ -30,6 +30,10 @@ a {
     color: white;
 }
 
+a:hover {
+    color: #adffad;
+}
+
 tr {
   height: 48px;
 }
