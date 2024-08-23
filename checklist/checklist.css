@@ -88,6 +88,12 @@ a:hover {
 
 #add-checklist {
     transition: .08s;
+    display: flex;
+    align-items: center;
+}
+
+#add-checklist > * {
+    margin-right: 8px;
 }
 
 #add-checklist:hover {
