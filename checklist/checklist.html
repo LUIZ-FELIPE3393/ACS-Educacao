@@ -30,17 +30,16 @@
     </header>
 
     <div class="row g-5">
+      <div id="actions-head">
+        <button id="add-checklist" class="btn btn-light" type="button">
+          <i class="bi bi-plus-circle" style="font-size: 28px;"></i>Adicionar novo dia
+        </button> 
+        <button id="btn-help" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-ajuda">
+          <i class="bi bi-question-circle" style="font-size: 28px;"></i><b>Primeiros Passos</b>     
+        </button> 
+      </div>
       <form id="formChecklist" action="" method="post">          
-        <div class="table-responsive" style="margin-bottom: 3cm;">
-          <div id="actions-head">
-            <button id="add-checklist" class="btn btn-light" type="button">
-              <i class="bi bi-plus-circle" style="font-size: 28px;"></i>Adicionar novo dia
-            </button> 
-            <button id="btn-help" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-ajuda">
-              <i class="bi bi-question-circle" style="font-size: 28px;"></i><b>Clique em mim!</b>     
-            </button> 
-          </div>
-          
+        <div class="table-responsive" style="margin-bottom: 3cm;">  
           <table class="table table-sm" name="checklist-table" id="checklist-table" style="width: 100%;">
             <thead>
               <tr>
@@ -177,7 +176,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/datadia-modal.png" alt="Calendário" style="height: 220px;">
+              <img class="img-fluid" src="/img/datadia-modal.png" alt="Calendário" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Escolha um dia para realizar as atividades à direita <b>atividades</b>. Você pode digitar a data ou clicar no <b>ícone de calendário</b> ao lado da data.</p> 
@@ -198,7 +197,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/caixa-modal.png" alt="Caixa d'água" style="height: 220px;">
+              <img class="img-fluid" src="/img/caixa-modal.png" alt="Caixa d'água" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>A caixa d'água de sua casa deve estar <b>totalmente vedada.</b>.</p> 
@@ -220,7 +219,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/galao-modal.png" alt="Galão d'água" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
+              <img class="img-fluid" src="/img/galao-modal.png" alt="Galão d'água" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
             </div>
             <div class="modal-body">
               <p>Assim como a caixa d'água, os galões, tonéis, poços e latões devem estar <b>totalmente vedados</b> para evitar proliferação de mosquitos.</p> 
@@ -242,7 +241,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/vaso-modal.png" alt="Vasos de planta" style="height: 220px;">
+              <img class="img-fluid" src="/img/vaso-modal.png" alt="Vasos de planta" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Os pratos com água que ficam embaixo dos vasos de planta <b>devem ser evitados</b>, pois acumulam água por muito tempo.</p> 
@@ -264,7 +263,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/balde-modal.jpg" alt="Baldes" style="height: 220px;">
+              <img class="img-fluid" src="/img/balde-modal.jpg" alt="Baldes" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Tome cuidado com a forma que os baldes são guardados.</p>
@@ -286,7 +285,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/garrafa-modal.jpg" alt="Garrafas" style="height: 220px;">
+              <img class="img-fluid" src="/img/garrafa-modal.jpg" alt="Garrafas" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Assim como baldes, as garrafas acumulam muita água se estiverem com a boca para cima.</p> 
@@ -308,7 +307,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pneu-modal.jpg" alt="Pneus" style="height: 220px;">
+              <img class="img-fluid" src="/img/pneu-modal.jpg" alt="Pneus" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Pneus também podem acumular água se não estiverem protegidos da chuva.</p> 
@@ -330,7 +329,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/piscina-modal.jpg" alt="Piscina" style="height: 220px;">
+              <img class="img-fluid" src="/img/piscina-modal.jpg" alt="Piscina" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Piscinas que não forem tratadas corretamente tornam-se um foco perigosíssimo para proliferação de mosquitos.</p> 
@@ -352,7 +351,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pocas-modal.png" alt="Poças" style="height: 220px;">
+              <img class="img-fluid" src="/img/pocas-modal.png" alt="Poças" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>O chão dentro e fora de casa devem estar sempre secos no dia a dia.</p> 
@@ -375,7 +374,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pote-modal.png" alt="Potes dos pets" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.bigberkeywaterfilters.com/blog/Filtered-Water-for-Pets</p>
+              <img class="img-fluid" src="/img/pote-modal.png" alt="Potes dos pets" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.bigberkeywaterfilters.com/blog/Filtered-Water-for-Pets</p>
             </div>
             <div class="modal-body">
               <p>Os potes de água dos bichinhos de estimação devem receber alguns cuidados.</p> 
@@ -397,7 +396,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/entulho-modal.jpg" alt="Entulho" style="height: 220px;">
+              <img class="img-fluid" src="/img/entulho-modal.jpg" alt="Entulho" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Locais com entulho que não estejam cobertos podem acumular bastante água.</p> 
@@ -419,7 +418,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/calha-modal.jpg" alt="Calha" style="height: 220px;">
+              <img class="img-fluid" src="/img/calha-modal.jpg" alt="Calha" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Algumas casas possuem calhas para direcionar a água da chuva que cai no telhado.</p> 

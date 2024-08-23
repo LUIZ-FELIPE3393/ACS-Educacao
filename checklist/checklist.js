@@ -232,8 +232,9 @@ async function fetchSaveFile(checklistDataURL) {
 
 function convertLocalStorageToObject() {
     let dataJSON = JSON.stringify(localStorage);
-    
     dataJSON = JSON.parse(dataJSON);
+    if(dataJSON.balde === undefined) throw Error("checklist localStorage is undefined");
+
     dataJSON.balde = dataJSON.balde.split(",");
     dataJSON.blocked = dataJSON.blocked.split(",");
     dataJSON.caixa = dataJSON.caixa.split(",");
@@ -254,8 +255,17 @@ function convertLocalStorageToObject() {
 }
 
 window.addEventListener("DOMContentLoaded", async function (e) {
-    const checklistDataJson = convertLocalStorageToObject();
-    loadChecklistData(checklistDataJson);
+    try {
+        const checklistDataJson = convertLocalStorageToObject();
+        loadChecklistData(checklistDataJson);
+    } catch (error) {
+        console.error("Não foi possível ler localStorage:", error);
+    }
+
+    if (localStorage.getItem("tutorialSeen") === null) {
+        document.querySelector("#btn-help").click();
+        localStorage.setItem("tutorialSeen", "true");
+    }
 });
 
 form.addEventListener("submit", (e) => {
