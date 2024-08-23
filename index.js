@@ -184,6 +184,23 @@ app.get("/answers/byQuestion/:questionId", function (req, res) {
 });
 
 /// --- Resultado model routes --- ///
+app.get("/a", async function (req, res) {
+  db.collection("questoes").doc("q0005").set({
+    pergunta: "Além do mosquito, existem outros animais que se encaixam na categoria de vetores. Qual dos animais baixo NÃO é considerado um vetor?",
+    pontos: 100,
+    resps: ["Gafanhoto", 
+            "Barbeiro", 
+            "Rato"]
+  });
+
+  db.collection("respostas").doc("r0005").set({
+    questao: "/questoes/q0005",
+    resps: [true, false, false]
+  });
+
+  res.sendFile(path.join(__dirname, "./quiz/sent.html"))
+  
+});
 
 //Add player score
 app.post("/send-score", function (req, res) {
