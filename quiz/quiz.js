@@ -13,7 +13,6 @@ let playerScore = 0;
 let playerCorrectAnswers = 0;
 let questionArraySize = 0;
 let cron;
-let timer;
 
 buttonAdvance.addEventListener("click", () => {advance()});
 
@@ -24,57 +23,61 @@ fetch("/questions/count").then((response) => response.json())
         buttonAdvance.removeAttribute("disabled");
     })
 
-//Class Answer
-function Answer(questionID, answerID, answerCorrect) {
-    this.questionID = questionID;
-    this.answerID = answerID;
-    this.answerCorrect = answerCorrect;
-}
-
 async function fimDoQuiz() {
     cron.stop();
 
     document.querySelector("#game-row").classList.add('hidden');
-
+    document.querySelector("#loading-row").classList.remove('hidden');
     ///console.log(answers);
 
     for (let i = 0; i < questionArraySize; i++) {
         const questionID = `q${("0000" + i).slice(-4)}`
         fetch("/answers/byQuestion/" + questionID).then((response) => response.json())
             .then((answersJSON) => {
-                if (answersJSON[answers[i].answerID]) {
+            fetch("/questions/id/" + questionID).then((response) => response.json())
+                .then((questionObject) => {
+                if (answersJSON[answers[i]]) {
                     playerCorrectAnswers++;
+                    playerScore += questionObject.pontos;
                 } else {
-                    fetch("/questions/id/" + questionID).then((response) => response.json())
-                        .then((questionObject) => {
-                            const correctedAnswer = document.createElement("div");
-                            correctedAnswer.classList.add("correction-block")
-                            let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.pergunta);
-                            correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
-                                questionObject.resps[answers[i].answerID]
-                            );
+                    const correctedAnswer = document.createElement("div");
+                    correctedAnswer.classList.add("correction-block")
+                    let correctedAnswerHTML = correctedAnswerHTMLTemplate.replace(":question:", questionObject.pergunta);
+                    correctedAnswerHTML = correctedAnswerHTML.replace(":wrong-answer:",
+                        questionObject.resps[answers[i]]
+                    );
 
-                            correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
-                                questionObject.resps[answersJSON.indexOf(true)]
-                            );
+                    correctedAnswerHTML = correctedAnswerHTML.replace(":correct-answer:", 
+                        questionObject.resps[answersJSON.indexOf(true)]
+                    );
 
-                            correctedAnswer.innerHTML = correctedAnswerHTML;
+                    correctedAnswer.innerHTML = correctedAnswerHTML;
+                    document.querySelector(".correction-section").append(correctedAnswer);  
 
-                            document.querySelector(".correction-section").append(correctedAnswer);  
-                        })
                 }
+                document.querySelector("#req-answers").value = answers.toString();
+                document.querySelector("#req-score").value = playerScore;
+                document.querySelector("#req-seg").value = cron.second;
+                document.querySelector("#req-min").value = cron.minute;
+                document.querySelector("#req-hour").value = cron.hour;
+
+                document.querySelector("#btn-send").removeAttribute("disabled");
+
+                document.querySelector("#loading-row").classList.add('hidden');
                 document.querySelector("#endgame-row").classList.remove('hidden');
 
-                document.querySelector("#score-text").innerText =
+                document.querySelector("#answers-text").innerText =
                 playerCorrectAnswers + ' / ' + questionArraySize;
+
+                document.querySelector("#score-text").innerText = playerScore;
 
                 document.querySelector("#cron-text-end").innerText = 
                     ("00" + cron.hour).slice(-2) + ":" +
                 ("00" + cron.minute).slice(-2) + 
                     ":" + ("00" + cron.second).slice(-2);
-
-                buttonAdvance.innerText = "Reiniciar quiz";
+            
             })
+        })
     }
 }
 
@@ -88,17 +91,12 @@ function advance() {
         while (answerBlock.hasChildNodes()) {
             const answer = answerBlock.firstElementChild;
             if(answer.clicked) {
-                answers.push(new Answer(questionNum-1, answer.answerID));
-                if(answer.answerCorrect) {
-                    playerScore += questionBlock.firstElementChild.answerPoints;
-                    playerCorrectAnswers += 1;
-                }
+                answers.push(answer.answerID);
             }
             answerBlock.removeChild(answer);
         }
         questionBlock.removeChild(questionBlock.firstElementChild);
     }
-    console.log(playerScore);
     answerOptions = [];
     setQuestion().then(() => {
         questionNum++;

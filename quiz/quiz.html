@@ -39,7 +39,7 @@
                 </section>
                 <section id="section" class="col-lg-10 text-center">
                     <div class="bottom-line align-items-center" id="questionBlock">
-                        <h2>Bem vindo ao Quiz Contra a Dengue, aqui você poderá testar seus conhecimentos a respeito do mosquito Aedes Aegypti e sobre o Controle Vetorial. Clique no botão azul para iniciar o quiz.</h2>
+                        <div><h2>Bem-vindo ao Quiz Contra a Dengue!</h2><h2>Aqui você poderá testar seus conhecimentos a respeito do mosquito Aedes Aegypti e sobre o Controle Vetorial.</h2><h2>Clique no botão azul para iniciar o quiz.</h2></div>
                     </div>
                     <div class="d-flex justify-content-center">
                         <div id="answerBlock" class="text-center col-sm-10 row-cols-1 gy-5"></div> 
@@ -49,24 +49,54 @@
                     </button>
                 </section>
             </div>
+
+            <div id="loading-row" class="row hidden">
+                <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
+                    <h2>Carregando resultados...</h2>
+                </section>
+            </div>
+
             <div id="endgame-row" class="row hidden">
                 <section class="p-4 col d-flex justify-content-center bottom-line text-center mb-4">
                     <div class="cron">
                         <img class="img-fluid" src="./assets/clock-svgrepo-com.svg" style="max-height: 64px;">
                         <p id="cron-text-end">00:00:00</p>
                     </div>
-                    <div class="score ms-4">
+                    <div class="answers ms-4">
                         <img class="img-fluid" src="./assets/check-circle-svgrepo-com.svg" style="max-height: 64px;">
-                        <p id="score-text">0 / 0</p>
+                        <p id="answers-text">0 / 0</p>
+                    </div>
+                    <div class="score ms-4">
+                        <img class="img-fluid" src="./assets/performance-up-graph-svgrepo-com.svg" style="max-height: 64px;">
+                        <p id="score-text">0</p>
                     </div>
                 </section>
                 
-                <section class="correction-section"></section>
+                <section class="correction-section mb-2"></section>
 
-                <section class="text-center">
-                    <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" disabled>
-                        Registrar Resposta
-                    </button>
+                <section class="text-center container-sm">
+                    <form action="/send-score" method="post">
+                        <div class="form-inputs">
+                            <p>
+                                <label for="form-nome" class="form-label">Nome</label>
+                                <input id="form-nome" class="form-control" name="nome" required>
+                            </p>
+                            <p>
+                                <label for="form-email" class="form-label">E-mail</label>
+                                <input id="form-email" class="form-control" name="email" placeholder="nome@exemplo.com" required>
+                            </p>
+                        </div>
+
+                        <input id="req-answers" name="resps" hidden>
+                        <input id="req-score" name="pontos" hidden>
+                        <input id="req-seg" name="segundos" hidden>
+                        <input id="req-min" name="minutos" hidden>
+                        <input id="req-hour" name="horas" hidden>
+                        
+                        <button id="btn-send" class="btn btn-primary" style="margin-top: 12px;" type="submit" disabled>
+                            Registrar Resposta
+                        </button>
+                    </form>
                 </section>
             </div>
         </main>

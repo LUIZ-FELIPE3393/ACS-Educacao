@@ -20,12 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
-//Depend
-app.use("/depend", express.static("./.depend"));
-
 //Bootstrap
-app.use("/css", express.static("./.depend/bootstrap/css"));
-app.use("/js", express.static("./.depend/bootstrap/js"));
+app.use("/css", express.static("./node_modules/bootstrap/dist/css"));
+app.use("/js", express.static("./node_modules/bootstrap/dist/js"));
 app.use("/icon-font", express.static("./node_modules/bootstrap-icons/font"));
 
 //Functionality Pattern
@@ -72,10 +69,6 @@ app.post("/save-checklist-device", async (req, res) => {
     });
 });
 
-app.post("/send-score", async (req, res) => {
-
-});
-
 app.get("/cookies", function (req, res) {
   res.json(req.cookies);
 });
@@ -96,27 +89,12 @@ app.get("/quiz", function (req, res, html) {
   res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
 });
 
-app.get("/quiz-start", async function (req, res, html) {
-  const testeRef = db.collection("teste").doc("teste");
-
-  testeRef.get().then((doc) => {
-    if (doc.exists) {
-      console.log("Document Data:", doc.data());
-    } else {
-      console.log("Document does not exist");
-    }
-  }).catch((error) => {
-    console.log("Error retrieving document:", error);  
-  })
-
-  res.sendFile(path.join(__dirname, "./quiz/start.html"));
-});
-
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "./index.html"));
 });
 
 /// --- Questao model routes --- ///
+
 //Get all questions
 app.get("/questions", function (req, res) {
   const questionRef = db.collection("questoes");
@@ -202,5 +180,48 @@ app.get("/answers/byQuestion/:questionId", function (req, res) {
     } else {
       res.status(404).send({message: "Não foi possível encontrar a pergunta procurada.", status: 404});
     }
+  });
+});
+
+/// --- Resultado model routes --- ///
+
+//Add player score
+app.post("/send-score", function (req, res) {
+  const emailArr = [];
+  const answerArr = [];
+
+  db.collection("resultados").where("email", "==", req.body.email).get().then(snapshot => {
+    snapshot.forEach(doc => {
+      emailArr.push(doc.data());
+    });
+
+    if (emailArr.length !== 0) {
+      res.sendFile(path.join(__dirname, "./quiz/error.html"));
+      return;
+    }
+    
+    const timeObj = {
+      segundos: Number(req.body.segundos),
+      minutos: Number(req.body.minutos),
+      horas: Number(req.body.horas)
+    }
+
+    for (const answer of req.body.resps.split(",")) {
+      answerArr.push(Number(answer));
+    }
+
+    db.collection("resultados").add({
+      email: req.body.email,
+      nome: req.body.nome,
+      pontos: Number(req.body.pontos),
+      tempo: timeObj,
+      resps: answerArr
+    }).then(docRef => {
+      console.log("Documento escrito com ID:", docRef.id);
+    }).catch(error => {
+      console.error("Erro ao escrever documento:", error);
+    });
+
+    res.sendFile(path.join(__dirname, "./quiz/sent.html"));
   });
 });
