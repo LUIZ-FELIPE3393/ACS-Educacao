@@ -31,11 +31,16 @@
 
     <div class="row g-5">
       <form id="formChecklist" action="" method="post">          
-        <br>
         <div class="table-responsive" style="margin-bottom: 3cm;">
-          <button id="add-checklist" name="add-checklist" class="btn btn-light" type="button" data-tt="tooltip" data-bs-title="Adicionar dia">
-            <i class="bi bi-plus-circle" style="font-size: 28px;"></i>Adicionar novo dia
-          </button> 
+          <div id="actions-head">
+            <button id="add-checklist" class="btn btn-light" type="button">
+              <i class="bi bi-plus-circle" style="font-size: 28px;"></i>Adicionar novo dia
+            </button> 
+            <button id="btn-help" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-ajuda">
+              <i class="bi bi-question-circle" style="font-size: 28px;"></i><b>Clique em mim!</b>     
+            </button> 
+          </div>
+          
           <table class="table table-sm" name="checklist-table" id="checklist-table" style="width: 100%;">
             <thead>
               <tr>
@@ -135,6 +140,34 @@
       
       
       <!-- Modais -->
+      <!-- Ajuda -->
+      <div class="modal fade" id="modal-ajuda" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalAjuda" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="modalAjuda">Primeiros Passos</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modal-page-1" class="modal-body">
+              <h4>Bem vindo ao checklist 10 minutos!</h4>
+              <p>Para iniciar, você deve primeiramente <b>clicar no botão que diz "Adicionar dia"</b>. Depois, <b>escolha a data do dia</b> e você já pode marcar quais atividades você realizou nesse dia.</p> 
+              <p>Caso tenha alguma dúvida sobre o que um ícone signifique, <b>passe o mouse por cima dele</b> e leia o balão que aparecerá. Os <b>ícones de atividade</b> (que estão no cabeçalho do checklist) podem ser clicados para ler algumas <b>dicas</b> sobre como realizar a atividade.</p> 
+              <p>Para <b>excluir um dia da semana</b>, clique no ícone de <b>lixeira <i class="bi bi-trash-fill"></i></b> que fica no lado direito dela. Você também pode <b>bloquear um dia da semana</b> clicando no ícone de <b>bloqueado <i class="bi bi-ban"></i></b> para evitar que a semana seja editada ou apagada por acidente.</p>
+            </div>
+            <div id="modal-page-2" class="modal-body" hidden>
+              <h4>Salvando o seu checklist</h4>
+              <p>Para <b>salvar o seu checklist</b>, você pode clicar em um dos botões verdes que ficam na parte inferior da página.</p> 
+              <p>O botão de <b>disquete <i class="bi bi-floppy-fill"></i></b> salva o seu checklist no <b>navegador</b>, enquanto o botão de <b>download <i class="bi bi-download"></i></b> salva o seu checklist como um <b>arquivo no seu computador</b>.</p> 
+              <p>Para <b>carregar o checklist</b> que foi salvo como <b>arquivo</b>, basta clicar no <b>botão cinza</b> com um ícone de <b>documento com seta <i class="bi bi-file-earmark-arrow-up"></i></b> e escolher o arquivo no seu computador. O nome padrão para o arquivo é <b>checklist.10min</b>.</p>
+            </div>
+            <div class="modal-footer">
+              <button id="btn-advance" type="button" class="btn btn-primary">Próxima página</button>
+              <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar tutorial</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Data da semana -->
       <div class="modal fade" id="modal-datadia" tabindex="-1" aria-labelledby="modalData" aria-hidden="true">
         <div class="modal-dialog">
@@ -144,13 +177,13 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/datadia-modal.png" alt="Calendário" style="max-width: 280px;">
+              <img src="/img/datadia-modal.png" alt="Calendário" style="height: 220px;">
             </div>
             <div class="modal-body">
-              <p>Escolha o dia em que você realizou as <b>atividades</b>. Você pode escrever ou clicar no <b>ícone de calendário</b> ao lado da data.</p> 
+              <p>Escolha um dia para realizar as atividades à direita <b>atividades</b>. Você pode digitar a data ou clicar no <b>ícone de calendário</b> ao lado da data.</p> 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -165,14 +198,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/caixa-modal.png" alt="Caixa d'água" style="max-width: 280px;">
+              <img src="/img/caixa-modal.png" alt="Caixa d'água" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>A caixa d'água de sua casa deve estar <b>totalmente vedada.</b>.</p> 
               <p>Para essa verificação, você deverá contar com a <b>ajuda de seus pais e/ou responsáveis</b>. Por isso, <b>peça educadamente</b> e lembre-se que é tudo por uma boa causa!</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -187,14 +220,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/galao-modal.png" alt="Galão d'água" style="max-width: 200px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
+              <img src="/img/galao-modal.png" alt="Galão d'água" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.healthline.com/nutrition/gallon-of-water-a-day#waters-importance</p>
             </div>
             <div class="modal-body">
               <p>Assim como a caixa d'água, os galões, tonéis, poços e latões devem estar <b>totalmente vedados</b> para evitar proliferação de mosquitos.</p> 
               <p>Como antes, você poderá precisar da <b>ajuda de seus pais e/ou responsáveis</b> para essa tarefa.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -209,14 +242,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/vaso-modal.png" alt="Vasos de planta" style="max-width: 200px;">
+              <img src="/img/vaso-modal.png" alt="Vasos de planta" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Os pratos com água que ficam embaixo dos vasos de planta <b>devem ser evitados</b>, pois acumulam água por muito tempo.</p> 
-              <p>O prato de água pode ser substituído por <b>pratos preenchidos por areia</b> ou <b>lavados semanalmente</b> com bucha.</p>
+              <p>O prato de água pode ser substituído por <b>pratos preenchidos por areia</b> ou <b>lavados semanalmente</b> com esponja.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -231,14 +264,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/balde-modal.jpg" alt="Baldes" style="max-width: 200px;">
+              <img src="/img/balde-modal.jpg" alt="Baldes" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Tome cuidado com a forma que os baldes são guardados.</p>
               <p>Para evitar acúmulo de água, os baldes devem estar virados com a <b>boca para baixo</b>.</p> 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -253,14 +286,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/garrafa-modal.jpg" alt="Garrafas" style="max-width: 280px;">
+              <img src="/img/garrafa-modal.jpg" alt="Garrafas" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Assim como baldes, as garrafas acumulam muita água se estiverem com a boca para cima.</p> 
-              <p>Caso não você não possa jogar uma garrafa fora, você deve deixa-la de boca para baixo.</p>
+              <p>Se não você não for jogar a garrafa fora, você deve deixá-la de boca para baixo.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -275,14 +308,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pneu-modal.jpg" alt="Pneus" style="max-width: 280px;">
+              <img src="/img/pneu-modal.jpg" alt="Pneus" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Pneus também podem acumular água se não estiverem protegidos da chuva.</p> 
               <p>Por isso, os pneus devem ser guardados em locais cobertos ou serem protegidos com lona.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -297,14 +330,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/piscina-modal.jpg" alt="Piscina" style="max-width: 220px;">
+              <img src="/img/piscina-modal.jpg" alt="Piscina" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Piscinas que não forem tratadas corretamente tornam-se um foco perigosíssimo para proliferação de mosquitos.</p> 
               <p>As piscinas devem ser limpas e tratadas com produtos químicos (deixe essa parte para um adulto) e, se possível, cobertas por uma capa quando não estiver sendo usada.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -319,15 +352,15 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pocas-modal.png" alt="Poças" style="max-width: 220px;">
+              <img src="/img/pocas-modal.png" alt="Poças" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>O chão dentro e fora de casa devem estar sempre secos no dia a dia.</p> 
-              <p>É necessário que se retire a água dos pátios com o uso de rodos e, no geral, se verifique possíveis vazamentos molhando o local.</p>
-              <p>Caso um local tenha um ralo para saída da água, deve-se mantê-lo limpo para que não haja bloqueio.</p>
+              <p>É necessário que se retire a água dos pátios com o uso de rodos e verifique possíveis vazamentos molhando o local.</p>
+              <p>Caso um local tenha um ralo para saída da água, deve-se mantê-lo limpo para que não haja bloqueio para a passagem da água.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -342,14 +375,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/pote-modal.png" alt="Potes dos pets" style="max-width: 280px;"><p style="font-size: 10px;">Origem: https://www.bigberkeywaterfilters.com/blog/Filtered-Water-for-Pets</p>
+              <img src="/img/pote-modal.png" alt="Potes dos pets" style="height: 220px;"><p style="font-size: 10px;">Origem: https://www.bigberkeywaterfilters.com/blog/Filtered-Water-for-Pets</p>
             </div>
             <div class="modal-body">
               <p>Os potes de água dos bichinhos de estimação devem receber alguns cuidados.</p> 
               <p>Deve-se diariamente trocar a água e lavar o pote para evitar acúmulo de sujeira e proliferação de larvas de mosquito.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -364,14 +397,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/entulho-modal.jpg" alt="Entulho" style="max-width: 280px;">
+              <img src="/img/entulho-modal.jpg" alt="Entulho" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Locais com entulho que não estejam cobertos podem acumular bastante água.</p> 
               <p>Para evitar isso, é necessário que o entulho seja coberto por lona bem esticada.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>
@@ -386,14 +419,14 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="text-align: center;">
-              <img src="/img/calha-modal.jpg" alt="Calha" style="max-width: 280px;">
+              <img src="/img/calha-modal.jpg" alt="Calha" style="height: 220px;">
             </div>
             <div class="modal-body">
               <p>Algumas casas possuem calhas para direcionar a água da chuva que cai no telhado.</p> 
               <p>Se for o seu caso, Peça ajuda a um adulto para limpar ela ocasionalmente para retirada de folhas e sujeira.</p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok, entendi</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok, entendi</button>
             </div>
           </div>
         </div>

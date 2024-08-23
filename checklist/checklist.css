@@ -85,18 +85,25 @@ a:hover {
     justify-content: center;
 }
 
-#add-checklist {
+#add-checklist, #btn-help {
     transition: .08s;
     display: flex;
     align-items: center;
 }
 
-#add-checklist > * {
+#add-checklist > *, #btn-help > * {
     margin-right: 8px;
 }
 
 #add-checklist:hover {
     color: white;
+}
+
+#actions-head {
+    display: flex;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #000;
+    justify-content: space-between;
 }
 
 .btn-tup {
@@ -106,6 +113,15 @@ a:hover {
 .btn-tup:hover {
     scale: 1.1;
     color: red;
+}
+
+.btn-unlock:hover {
+    scale: 1.1;
+    color: green;
+}
+
+.del:disabled {
+    border: none;
 }
 
 .checkbox-lg .form-check-input{
