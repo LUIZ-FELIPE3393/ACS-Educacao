@@ -5,6 +5,7 @@ const saveButtonWeb = document.getElementById("save-checklist-web");
 const saveButtonDevice = document.getElementById("save-checklist-device");
 const loadButton = document.getElementById("load-checklist");
 const fileInput = document.querySelector("#load-checklist-file");
+const modalAjuda = document.querySelector("#modal-ajuda");
 
 const tooltipTriggerList = document.querySelectorAll('[data-tt="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
@@ -76,7 +77,7 @@ function saveToStorage(submittedForm) {
     }
 }
 
-const saveFormOnWeb = (e) => {
+const saveFormOnWeb = async (e) => {
     const submittedForm = form.cloneNode(true);
     submittedForm.setAttribute("action", submitAction);
     submittedForm.setAttribute("method", "post");
@@ -109,18 +110,27 @@ const saveFormOnWeb = (e) => {
     saveToStorage(submittedForm);
     document.getElementById('submitted-form-container').appendChild(submittedForm);
     submittedForm.submit();
+    setTimeout(() => {
+        window.location.reload(true);
+    }, 1000);
 }
 
 function unblockTuple(nodeTuple) {
     for (let input of nodeTuple.querySelectorAll("input")) {
         input.removeAttribute("disabled");
     }  
+    nodeTuple.querySelector(".del").removeAttribute("disabled");
+    nodeTuple.querySelector(".lock > i").setAttribute("class", "bi bi-unlock");
+    nodeTuple.querySelector(".lock").classList.remove("btn-unlock");
 }
 
 function blockTuple(nodeTuple) {
     for (let input of nodeTuple.querySelectorAll("input")) {
         input.setAttribute("disabled", "");
-    }   
+    }
+    nodeTuple.querySelector(".del").setAttribute("disabled", "");
+    nodeTuple.querySelector(".lock > i").setAttribute("class", "bi bi-lock");
+    nodeTuple.querySelector(".lock").classList.add("btn-unlock");
 }
 
 async function loadChecklistData(JSONData) {
@@ -281,7 +291,7 @@ addButton.addEventListener("click", function (e) {
     const tupla_id = tupla_num;
 
     buttonRemove.addEventListener('click', () => {
-        checklistTableContent.removeChild(document.getElementById("tupla-" + tupla_id));
+        checklistTableContent.removeChild(checklistTableContent.getElementById("tupla-" + tupla_id));
     });
     buttonBlock.addEventListener('click', () => {
         if (tuple.getAttribute("blocked") === "true") {
@@ -301,6 +311,22 @@ fileInput.addEventListener("change", async () => {
         const checklistDataJson = await fetchSaveFile(checklistDataURL);
         loadChecklistData(checklistDataJson);
     }  
+});
+
+modalAjuda.querySelector("#btn-advance").addEventListener("click", () => {
+    modalAjuda.querySelector("#modal-page-1").setAttribute("hidden", "");
+    modalAjuda.querySelector("#btn-advance").setAttribute("disabled", "");
+    modalAjuda.querySelector("#btn-advance").setAttribute("class", "btn btn-secondary");
+    modalAjuda.querySelector("#btn-close").setAttribute("class", "btn btn-primary");
+    modalAjuda.querySelector("#modal-page-2").removeAttribute("hidden", "");
+});
+
+modalAjuda.querySelector("#btn-close").addEventListener("click", () => {
+    modalAjuda.querySelector("#modal-page-1").removeAttribute("hidden", "");
+    modalAjuda.querySelector("#btn-advance").removeAttribute("disabled", "");
+    modalAjuda.querySelector("#btn-advance").setAttribute("class", "btn btn-primary");
+    modalAjuda.querySelector("#btn-close").setAttribute("class", "btn btn-secondary");
+    modalAjuda.querySelector("#modal-page-2").setAttribute("hidden", "");
 });
 
 const tupleFormat = `
@@ -377,12 +403,12 @@ const tupleFormat = `
     </div>
 </td>
 <td class="td-check text-center">
-    <button name="deleteSemana-:tupleNum:" id="deleteSemana-:tupleNum:" class="btn btn-tup" type="button">
+    <button name="deleteSemana-:tupleNum:" id="deleteSemana-:tupleNum:" class="btn btn-tup del" type="button">
         <i class="bi bi-trash-fill"></i>
     </button>
 </td>
 <td class="td-check text-center">
-    <button name="blockSemana-:tupleNum:" id="blockSemana-:tupleNum:" class="btn btn-tup" type="button">
-        <i class="bi bi-ban"></i>
+    <button name="blockSemana-:tupleNum:" id="blockSemana-:tupleNum:" class="btn btn-tup lock" type="button">
+        <i class="bi bi-unlock"></i>
     </button>
 </td>`;
