@@ -28,6 +28,7 @@ async function fimDoQuiz() {
 
     document.querySelector("#game-row").classList.add('hidden');
     document.querySelector("#loading-row").classList.remove('hidden');
+    document.querySelector("#correction-section").removeAttribute('hidden');
     ///console.log(answers);
 
     for (let i = 0; i < questionArraySize; i++) {
@@ -52,7 +53,7 @@ async function fimDoQuiz() {
                     );
 
                     correctedAnswer.innerHTML = correctedAnswerHTML;
-                    document.querySelector(".correction-section").append(correctedAnswer);  
+                    document.querySelector(".correction-section-grid").append(correctedAnswer);  
 
                 }
                 document.querySelector("#req-answers").value = answers.toString();
