@@ -54,7 +54,7 @@ app.post("/save-checklist-web", function (req, res) {
 });
 
 app.post("/save-checklist-device", async (req, res) => {
-  const url = path.join(__dirname, "../public/checklist.10min"); 
+  const url = path.join(__dirname, "../tmp/checklist.10min"); 
   console.log("Download Iniciado");
   fileSystem.writeFile(
     url, 
@@ -74,7 +74,7 @@ app.get("/cookies", function (req, res) {
 });
 
 app.get("/file-download/:name", (req, res) => {
-  res.download(path.join(__dirname, "../public/" + req.params.name));
+  res.download(path.join(__dirname, "../tmp/" + req.params.name));
 });
 
 app.get("/file-read/:url", (req, res) => {
