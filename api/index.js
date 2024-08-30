@@ -64,7 +64,7 @@ app.post("/save-checklist-device", async (req, res) => {
       console.log(error, "O arquivo não pôde ser criado");
     else { //Arquivo criado e salvo no servidor
       console.log("O arquivo foi criado");
-      res.redirect('../file-download/checklist.10min'); //Leitura do arquivo no servidor
+      res.redirect('/file-download/checklist.10min'); //Leitura do arquivo no servidor
     }
     });
 });
