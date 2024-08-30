@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const fileSystem = require("fs");
 const { error } = require("console");
-const { db, fb } = require("./firebase")
+const { db, fb } = require("../firebase")
 
 let app = express();
 let server = http.createServer(app);
@@ -21,16 +21,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 //Bootstrap
-app.use("/css", express.static("./node_modules/bootstrap/dist/css"));
-app.use("/js", express.static("./node_modules/bootstrap/dist/js"));
-app.use("/icon-font", express.static("./node_modules/bootstrap-icons/font"));
+app.use("/css", express.static(path.join(__dirname, "../node_modules/bootstrap/dist/css")));
+app.use("/js", express.static(path.join(__dirname, "../node_modules/bootstrap/dist/js")));
+app.use("/icon-font", express.static(path.join(__dirname, "../node_modules/bootstrap-icons/font")));
 
 //Functionality Pattern
-app.use("/checklist", express.static("./checklist"));
-app.use("/quiz", express.static("./quiz"));
+app.use("/checklist", express.static(path.join(__dirname,"../checklist")));
+app.use("/quiz", express.static(path.join(__dirname,"../quiz")));
 
 //Express
-app.use(express.static(path.join(__dirname, "./public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 //Rotas
 app.post("/save-checklist-web", function (req, res) {
@@ -54,7 +54,7 @@ app.post("/save-checklist-web", function (req, res) {
 });
 
 app.post("/save-checklist-device", async (req, res) => {
-  const url = path.join(__dirname, "./public/checklist.10min"); 
+  const url = path.join(__dirname, "../public/checklist.10min"); 
   console.log("Download Iniciado");
   fileSystem.writeFile(
     url, 
@@ -64,7 +64,7 @@ app.post("/save-checklist-device", async (req, res) => {
       console.log(error, "O arquivo não pôde ser criado");
     else { //Arquivo criado e salvo no servidor
       console.log("O arquivo foi criado");
-      res.redirect('/file-download/checklist.10min'); //Leitura do arquivo no servidor
+      res.redirect('../file-download/checklist.10min'); //Leitura do arquivo no servidor
     }
     });
 });
@@ -74,7 +74,7 @@ app.get("/cookies", function (req, res) {
 });
 
 app.get("/file-download/:name", (req, res) => {
-  res.download(path.join(__dirname, "./public/" + req.params.name));
+  res.download(path.join(__dirname, "../public/" + req.params.name));
 });
 
 app.get("/file-read/:url", (req, res) => {
@@ -82,15 +82,15 @@ app.get("/file-read/:url", (req, res) => {
 });
 
 app.get("/checklist", function (req, res, html) {
-  res.sendFile(path.join(__dirname, "./checklist/checklist.html"));
+  res.sendFile(path.join(__dirname, "../checklist/checklist.html"));
 });
 
 app.get("/quiz", function (req, res, html) {
-  res.sendFile(path.join(__dirname, "./quiz/quiz.html"));
+  res.sendFile(path.join(__dirname, "../quiz/quiz.html"));
 });
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "./index.html"));
+  res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 /// --- Questao model routes --- ///
@@ -196,7 +196,7 @@ app.post("/send-score", function (req, res) {
     });
 
     if (emailArr.length !== 0) {
-      res.sendFile(path.join(__dirname, "./quiz/error.html"));
+      res.sendFile(path.join(__dirname, "../quiz/error.html"));
       return;
     }
     
@@ -222,7 +222,7 @@ app.post("/send-score", function (req, res) {
       console.error("Erro ao escrever documento:", error);
     });
 
-    res.sendFile(path.join(__dirname, "./quiz/sent.html"));
+    res.sendFile(path.join(__dirname, "../quiz/sent.html"));
   });
 });
 
