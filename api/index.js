@@ -74,7 +74,8 @@ app.get("/cookies", function (req, res) {
 });
 
 app.get("/file-download/:name", (req, res) => {
-  res.download("/tmp/", + req.params.name);
+  res.sendFile(path.join(__dirname, "../quiz/quiz.html"));
+  //res.download("/tmp/", + req.params.name);
 });
 
 app.get("/file-read/:url", (req, res) => {
