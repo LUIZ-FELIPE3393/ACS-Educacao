@@ -332,11 +332,13 @@ modalAjuda.querySelector("#btn-advance").addEventListener("click", () => {
 });
 
 modalAjuda.querySelector("#btn-close").addEventListener("click", () => {
-    modalAjuda.querySelector("#modal-page-1").removeAttribute("hidden", "");
-    modalAjuda.querySelector("#btn-advance").removeAttribute("disabled", "");
     modalAjuda.querySelector("#btn-advance").setAttribute("class", "btn btn-primary");
     modalAjuda.querySelector("#btn-close").setAttribute("class", "btn btn-secondary");
-    modalAjuda.querySelector("#modal-page-2").setAttribute("hidden", "");
+    setTimeout(() => {
+        modalAjuda.querySelector("#modal-page-2").setAttribute("hidden", "");
+        modalAjuda.querySelector("#modal-page-1").removeAttribute("hidden", "");
+    }, 150)
+    modalAjuda.querySelector("#btn-advance").removeAttribute("disabled", "");
 });
 
 const tupleFormat = `
