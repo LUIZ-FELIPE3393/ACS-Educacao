@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const fileSystem = require("fs");
 const { error } = require("console");
-const { db, fb } = require("../firebase")
+const { db, fb } = require("./firebase")
 
 let app = express();
 let server = http.createServer(app);
@@ -225,3 +225,5 @@ app.post("/send-score", function (req, res) {
     res.sendFile(path.join(__dirname, "./quiz/sent.html"));
   });
 });
+
+module.exports = app;
