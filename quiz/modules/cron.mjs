@@ -1,4 +1,4 @@
-export class Cron {
+class Cron {
     constructor(second, minute, hour) {
         this.second = second;
         this.minute = minute;
