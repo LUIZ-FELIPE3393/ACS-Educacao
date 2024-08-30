@@ -184,6 +184,24 @@ app.get("/answers/byQuestion/:questionId", function (req, res) {
 });
 
 /// --- Resultado model routes --- ///
+app.get("/a", async function (req, res) {
+  /*db.collection("questoes").doc("q0007").set({
+    pergunta: "Qual dos itens abaixo representa uma fobia do mosquito da dengue?",
+    pontos: 150,
+    resps: ["Fotofobia (Aversão à luz)", 
+            "Nictofobia (Aversão ao escuro)", 
+            "Hidrofobia (Aversão à água)",
+            "Antropofobia (Aversão à seres humanos)"]
+  });*/
+
+  db.collection("respostas").doc("r0008").set({
+    questao: "/questoes/q0008",
+    resps: [false, true, false, false]
+  });
+
+  res.sendFile(path.join(__dirname, "./quiz/sent.html"))
+  
+});
 
 //Add player score
 app.post("/send-score", function (req, res) {
